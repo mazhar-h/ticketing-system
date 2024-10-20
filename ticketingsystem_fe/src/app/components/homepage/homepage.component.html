@@ -1,0 +1,18 @@
+<div class="homepage-container">
+    <h1 class="title">TicketingSystem</h1>
+  
+    <div class="search-container">
+      <input 
+        type="text" 
+        placeholder="Search for events..." 
+        [(ngModel)]="searchText" 
+        (ngModelChange)="onSearchChange()"
+        class="search-input"
+      />
+      <button class="search-button" (click)="searchEvents()">Search</button>
+    </div>
+  
+    <div class="login-container">
+      <button class="login-button" (click)="goToLogin()">Login</button>
+    </div>
+  </div>

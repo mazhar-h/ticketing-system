@@ -1,0 +1,16 @@
+<app-ticket-selection-modal
+  [showSelectionModal]="showTicketSelectionModal"
+  (modalClosed)="onModalClosed()"
+></app-ticket-selection-modal>
+
+<div class="event-details-container" *ngIf="eventDetails">
+  <h2>{{ eventDetails.name }}</h2>
+  <p><strong>Description:</strong> {{ eventDetails.description }}</p>
+  <p><strong>Venue:</strong> {{ eventDetails.venue.name }}</p>
+  <div *ngFor="let performer of eventDetails.performers">
+    <p><strong>Performer:</strong> {{ performer.name }}</p>
+  </div>
+  <p><strong>Date:</strong> {{ eventDetails.date | date: 'medium' }}</p>
+  
+  <button class="purchase-button" (click)="openTicketSelectionModal()">Purchase Tickets</button>
+</div>

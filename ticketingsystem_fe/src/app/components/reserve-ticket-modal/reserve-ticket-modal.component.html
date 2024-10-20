@@ -1,0 +1,31 @@
+<div class="custom-modal-backdrop">
+  <div class="custom-modal" *ngIf="isTicketsAvailable">
+    <span class="close" (click)="cancelReservation()">&times;</span>
+    <h2>Time Remaining</h2>
+    <h3>{{ getFormattedTime() }}</h3>
+    <!-- Display the formatted countdown time -->
+    <h2>Reservation Details</h2>
+
+    <div *ngIf="isLoggedIn; else loginPrompt">
+      <p>
+        Your reservation is on hold. Please complete your purchase before the
+        time runs out.
+      </p>
+      <p>You have reserved the following tickets:</p>
+
+      <ul>
+        <li *ngFor="let ticketId of ticketIds">{{ ticketId }}</li>
+      </ul>
+
+      <button (click)="confirmPurchase()">Confirm Purchase</button>
+    </div>
+
+    <ng-template #loginPrompt>
+      <p>Please <a routerLink="/login">login</a> to reserve tickets.</p>
+    </ng-template>
+  </div>
+  <div class="custom-modal" *ngIf="!isTicketsAvailable">
+    <span class="close" (click)="close()">&times;</span>
+    <p>Sorry! An error occured.</p>
+  </div>
+</div>

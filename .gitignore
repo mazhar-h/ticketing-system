@@ -1,0 +1,41 @@
+# Compiled output
+ticketingsystem_fe/docs
+ticketingsystem_fe/dist
+ticketingsystem_fe/tmp
+ticketingsystem_fe/out-tsc
+ticketingsystem_fe/bazel-out
+
+# Node
+ticketingsystem_fe/node_modules
+ticketingsystem_fe/npm-debug.log
+ticketingsystem_fe/yarn-error.log
+
+# IDEs and editors
+ticketingsystem_fe/.idea/
+ticketingsystem_fe/.project
+ticketingsystem_fe/.classpath
+ticketingsystem_fe/.c9/
+ticketingsystem_fe/*.launch
+ticketingsystem_fe/.settings/
+ticketingsystem_fe/*.sublime-workspace
+
+# Visual Studio Code
+ticketingsystem_fe/.vscode/*
+ticketingsystem_fe/!.vscode/settings.json
+ticketingsystem_fe/!.vscode/tasks.json
+ticketingsystem_fe/!.vscode/launch.json
+ticketingsystem_fe/!.vscode/extensions.json
+ticketingsystem_fe/.history/*
+
+# Miscellaneous
+ticketingsystem_fe/.angular/cache
+ticketingsystem_fe/.sass-cache/
+ticketingsystem_fe/connect.lock
+ticketingsystem_fe/coverage
+ticketingsystem_fe/libpeerconnection.log
+ticketingsystem_fe/testem.log
+ticketingsystem_fe/typings
+
+# System files
+ticketingsystem_fe/.DS_Store
+ticketingsystem_fe/Thumbs.db

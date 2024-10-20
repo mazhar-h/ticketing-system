@@ -1,0 +1,40 @@
+<!-- Reserve Ticket Modal -->
+<app-reserve-ticket-modal
+  *ngIf="showReserveModal"
+  [ticketIds]="selectedTicketIds"
+  (closeModal)="closeReserveModal()"
+></app-reserve-ticket-modal>
+
+<div class="modal" *ngIf="showSelectionModal">
+  <div class="modal-content">
+    <span class="close" (click)="close()">&times;</span>
+
+    <h2>Select Tickets for Purchase</h2>
+    <!-- Display aggregated tickets by price -->
+    <div *ngFor="let group of ticketsByPrice">
+      <div>
+        <span>Price: {{ group.price | currency }}</span>
+        <span> Total Available: {{ group.totalAvailable }}</span>
+        <span> Selected: {{ group.selectedCount }}</span>
+      </div>
+
+      <!-- Ticket selection controls -->
+      <div>
+        <button (click)="decrementTicket(group.price)" [disabled]="group.selectedCount === 0">-</button>
+        <span>{{ group.selectedCount }}</span>
+        <button (click)="incrementTicket(group.price)" [disabled]="group.selectedCount >= group.totalAvailable">+</button>
+      </div>
+    </div>
+
+    <h3>Selected Tickets:</h3>
+    <ul>
+      <li *ngFor="let ticketId of selectedTicketIds">
+        Ticket ID: {{ ticketId }}
+      </li>
+    </ul>
+
+    <div *ngIf="ticketsByPrice.length === 0">Sold Out</div>
+
+    <button (click)="openReserveModal()" [disabled]="selectedTicketIds.length === 0">Reserve Tickets</button>
+  </div>
+</div>

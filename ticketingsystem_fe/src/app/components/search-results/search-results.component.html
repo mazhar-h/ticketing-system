@@ -1,0 +1,23 @@
+<div class="search-results-container">
+  <h2>Search Results</h2>
+
+  <div *ngIf="events.length === 0">
+    <p>No events found.</p>
+  </div>
+
+  <div *ngIf="events.length > 0" class="event-list">
+    <div
+      *ngFor="let event of events"
+      class="event-item"
+      (click)="goToEventDetails(event.id)"
+    >
+      <h3>{{ event.name }}</h3>
+      <p>{{ event.description }}</p>
+      <p><strong>Venue:</strong> {{ event.venue.name }}</p>
+      <div *ngFor="let performer of event.performers">
+        <p><strong>Performer:</strong> {{ performer.name }}</p>
+      </div>
+      <p><strong>Date:</strong> {{ event.date | date : "medium" }}</p>
+    </div>
+  </div>
+</div>

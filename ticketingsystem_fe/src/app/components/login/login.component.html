@@ -1,0 +1,101 @@
+<app-username-modal
+  [googleUsernameCreatedError]="googleUsernameCreatedError"
+  [facebookUsernameCreatedError]="facebookUsernameCreatedError"
+  [socialType]="socialType"
+  (googleUsernameCreated)="handleGoogleUsernameCreated($event)"
+  (facebookUsernameCreated)="handleFacebookUsernameCreated($event)"
+  *ngIf="showUsernameModal"
+></app-username-modal>
+<app-user-link-modal
+  [showModal]="showUserLinkModal"
+  [username]="existingUsername"
+  [idToken]="idToken"
+  [socialType]="socialType"
+  (modalClosed)="onModalClosed()"
+></app-user-link-modal>
+
+<!-- login.component.html -->
+
+<div class="login-container">
+  <h2>Login</h2>
+
+  <!-- Display error message if login fails -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+    <!-- Show resend verification button if user is disabled -->
+    <div *ngIf="userDisabled">
+      <button type="button" (click)="resendVerification()" class="btn btn-link">
+        Resend verification link
+      </button>
+    </div>
+  </div>
+
+  <form (ngSubmit)="onLogin()" [formGroup]="loginForm">
+    <!-- Username Field -->
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        id="username"
+        formControlName="username"
+        class="form-control"
+        placeholder="Enter your username"
+        required
+      />
+      <div
+        *ngIf="
+          loginForm.get('username')?.invalid &&
+          loginForm.get('username')?.touched
+        "
+        class="error"
+      >
+        Username is required.
+      </div>
+    </div>
+
+    <!-- Password Field -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        formControlName="password"
+        class="form-control"
+        placeholder="Enter your password"
+        required
+      />
+      <div
+        *ngIf="
+          loginForm.get('password')?.invalid &&
+          loginForm.get('password')?.touched
+        "
+        class="error"
+      >
+        Password is required.
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-group">
+      <button
+        type="submit"
+        [disabled]="loginForm.invalid"
+        class="btn btn-primary"
+      >
+        Login
+      </button>
+    </div>
+  </form>
+
+  <div id="gooogle-signin-btn"></div>
+  <button (click)="facebookLogin()" class="loginBtn loginBtn--facebook">Sign in with Facebook</button>
+
+  <!-- Links -->
+  <div class="links">
+    <ul class="no-bullets">
+      <li><a routerLink="/register">Don't have an account? Register</a></li>
+      <li><a routerLink="/forgot-username">Forgot your username?</a></li>
+      <li><a routerLink="/forgot-password">Forgot your password?</a></li>
+    </ul>
+  </div>
+</div>

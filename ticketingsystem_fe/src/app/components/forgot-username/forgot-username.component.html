@@ -1,0 +1,19 @@
+<div class="forgot-username-container">
+  <div class="forgot-username">
+    <h2>Forgot Username</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          class="form-control"
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="Enter your email here"
+          required
+        />
+      </div>
+      <button class="btn" type="submit">Send Username</button>
+    </form>
+  </div>
+</div>
