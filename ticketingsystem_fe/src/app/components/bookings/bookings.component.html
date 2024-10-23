@@ -1,0 +1,18 @@
+<!-- bookings.component.html -->
+<div class="booking-list">
+    <h2>Your Bookings</h2>
+    <div *ngFor="let booking of bookings" class="booking-item">
+      <span>Booking ID: {{ booking.id }}</span>
+      <span>Booking Date: {{ booking.date | date:'shortDate' }}</span>
+      <button (click)="openBookingDetails(booking.id)">View Details</button>
+    </div>
+  </div>
+  
+  <!-- Booking Details Modal -->
+  <app-booking-details-modal
+    *ngIf="isModalOpen"
+    [bookingId]="selectedBookingId"
+    [bookings]="bookings"
+    (close)="closeModal()"
+  ></app-booking-details-modal>
+  

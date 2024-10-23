@@ -1,0 +1,25 @@
+<!-- booking-details-modal.component.html -->
+<div class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h4 class="modal-title">Booking Details</h4>
+        <span class="close" (click)="closeModal()">&times;</span>
+      </div>
+  
+      <div class="modal-body" *ngIf="bookingDetails">
+        <p><strong>Booking ID:</strong> {{ bookingDetails.id }}</p>
+        <p><strong>Booking Date:</strong> {{ bookingDetails.date | date:'short' }}</p>
+        <p><strong>Event:</strong> {{ bookingDetails.event.name }}</p>
+        <p><strong>Venue:</strong> {{ bookingDetails.venue.name }}</p>
+        <p><strong>Total Amount:</strong> {{ bookingDetails.totalPrice | currency }}</p>
+  
+        <h5>Tickets</h5>
+        <ul>
+          <li *ngFor="let ticket of bookingDetails.tickets">
+            Ticket ID: {{ ticket.id }}, {{ ticket.name }} , Price: {{ ticket.price | currency }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  

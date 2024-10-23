@@ -1,0 +1,23 @@
+<div class="modal-backdrop">
+    <div class="modal-container">
+      <h2>Booking Confirmation</h2>
+      <p>Your booking was successful! Here are the details:</p>
+  
+      <div class="booking-details">
+        <p><strong>Confirmation Number:</strong> {{ bookingId }}</p>
+        <p><strong>Total Amount:</strong> ${{ totalAmount.toFixed(2) }}</p>
+  
+        <div class="tickets">
+          <h3>Tickets:</h3>
+          <ul>
+            <li *ngFor="let ticket of tickets">
+              1 x {{ ticket.name }} - Price: ${{ ticket.price }}
+            </li>
+          </ul>
+        </div>
+      </div>
+  
+      <button (click)="closeModal()">Close</button>
+    </div>
+  </div>
+  

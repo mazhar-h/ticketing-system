@@ -16,13 +16,26 @@ export class TicketSelectionModalComponent {
   showReserveModal: boolean = false; // For controlling modal display
   @Input() showSelectionModal: boolean = false; // Control TicketPurchaseModal visibility
   eventId!: number;
+  totalAmount: number = 0;
 
   constructor(private eventService: EventService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.eventId = Number(this.route.snapshot.paramMap.get('id'));
     this.fetchTickets();
+  }
 
+  getSelectedTickets(): any[] {
+    const selectedTikets = this.rawTickets.filter(x => this.selectedTicketIds.includes(x.id))
+    return selectedTikets;
+  }
+
+  calculateTotalAmount(): void {
+    this.totalAmount = this.ticketsByPrice.reduce((total, group) => {
+      return total + (group.price * group.selectedCount);
+    }, 0);
+
+    console.log('Total amount for selected tickets:', this.totalAmount);
   }
 
     // Fetch tickets from the server
@@ -67,6 +80,7 @@ export class TicketSelectionModalComponent {
       priceGroup.tickets = priceGroup.tickets.filter((ticket: any) => ticket.id !== randomTicket.id);
       priceGroup.selectedCount++;
 
+      this.calculateTotalAmount();
       console.log('Selected ticket IDs:', this.selectedTicketIds);
     }
   }
@@ -85,6 +99,7 @@ export class TicketSelectionModalComponent {
         priceGroup.tickets.push(ticketToReturn);
       }
 
+      this.calculateTotalAmount();
       console.log('Selected ticket IDs:', this.selectedTicketIds);
     }
   }
@@ -110,5 +125,12 @@ export class TicketSelectionModalComponent {
     this.fetchTickets();
     this.showReserveModal = false; // Hide the reserve modal
     this.showSelectionModal = true;  // Show the purchase modal again
+  }
+
+  closeReserveModalAfterBooking() {
+    this.selectedTicketIds = []
+    this.showReserveModal = false;
+    this.showSelectionModal = false; 
+    this.close();
   }
 }

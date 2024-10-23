@@ -2,7 +2,10 @@
 <app-reserve-ticket-modal
   *ngIf="showReserveModal"
   [ticketIds]="selectedTicketIds"
+  [tickets]="rawTickets"
+  [totalAmount]="totalAmount"
   (closeModal)="closeReserveModal()"
+  (closeModalAfterBooking)="closeReserveModalAfterBooking()"
 ></app-reserve-ticket-modal>
 
 <div class="modal" *ngIf="showSelectionModal">
@@ -28,8 +31,8 @@
 
     <h3>Selected Tickets:</h3>
     <ul>
-      <li *ngFor="let ticketId of selectedTicketIds">
-        Ticket ID: {{ ticketId }}
+      <li *ngFor="let ticket of getSelectedTickets()">
+        Ticket ID: {{ ticket.id }} {{ ticket.name }}
       </li>
     </ul>
 

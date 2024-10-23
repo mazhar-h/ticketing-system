@@ -1,0 +1,17 @@
+  /* bookings.component.css */
+.booking-list {
+    margin: 20px;
+  }
+  
+  .booking-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .booking-item button {
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  

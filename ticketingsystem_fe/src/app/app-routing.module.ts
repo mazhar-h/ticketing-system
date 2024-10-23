@@ -15,6 +15,8 @@ import { DataDeletionPolicyComponent } from './components/data-deletion-policy/d
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { SearchResultsComponent } from './components/search-results/search-results.component';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
+import { BookingsComponent } from './components/bookings/bookings.component';
+import { CreateEventComponent } from './components/create-event/create-event.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -33,6 +35,8 @@ const routes: Routes = [
   { path: 'confirm-email/:token', component: EmailConfirmationComponent },
   { path: 'search-results', component: SearchResultsComponent },
   { path: 'event/:id', component: EventDetailsComponent },
+  { path: 'bookings', component: BookingsComponent },
+  { path: 'create-event', component: CreateEventComponent },
 ];
 
 @NgModule({
