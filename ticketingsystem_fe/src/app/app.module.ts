@@ -69,7 +69,9 @@ import { CreateEventComponent } from './components/create-event/create-event.com
         BrowserModule,
         AppRoutingModule,
         FormsModule,
-        ReactiveFormsModule], providers: [
+        ReactiveFormsModule
+    ],
+    providers: [
         AuthService,
         WeatherService,
         { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },

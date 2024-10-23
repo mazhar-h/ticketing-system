@@ -1,1 +1,80 @@
+<div class="container">
+  <h2>Create Event</h2>
+  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Event Name: </label>
+      <input
+        id="name"
+        class="form-control"
+        formControlName="name"
+        placeholder="Enter event name"
+      />
+    </div>
+
+    <h3>Performers</h3>
+    <div formArrayName="performers">
+        <div *ngFor="let performer of performers.controls; let i = index" [formGroupName]="i">
+            <input
+              type="text"
+              formControlName="name"
+              (input)="onSearchPerformer(i, performer.get('name')?.value)"
+              placeholder="Search Performer"
+            />
+            <!-- Display the suggestions under the correct input field -->
+            <ul *ngIf="performerSearchResults[i]?.length">
+              <li class="performer-list-item" *ngFor="let result of performerSearchResults[i]" (click)="selectPerformer(i, result)">
+                {{ result.name }}
+              </li>
+            </ul>
+        <button type="button" (click)="removePerformer(i)">
+          Remove Performer
+        </button>
+      </div>
+    </div>
+    <button type="button" (click)="addPerformer()">Add Performer</button>
+
+    <h3>Tickets</h3>
+    <div formArrayName="tickets">
+      <div
+        *ngFor="let ticket of tickets.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <div class="form-group">
+          <label for="ticketName-{{ i }}">Ticket Name: </label>
+          <input
+            id="ticketName-{{ i }}"
+            class="form-control"
+            formControlName="name"
+            placeholder="Enter ticket name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="ticketPrice-{{ i }}">Ticket Price: </label>
+          <input
+            id="ticketPrice-{{ i }}"
+            class="form-control"
+            formControlName="price"
+            placeholder="Enter ticket price"
+            type="number"
+          />
+        </div>
+        <div class="form-group">
+          <label for="ticketQuantity-{{ i }}">Ticket Quantity: </label>
+          <input
+            id="ticketQuantity-{{ i }}"
+            class="form-control"
+            formControlName="quantity"
+            placeholder="Enter ticket quantity"
+            type="number"
+          />
+        </div>
+        <button type="button" (click)="removeTicket(i)">Remove Ticket</button>
+      </div>
+    </div>
+    <button type="button" (click)="addTicket()">Add Ticket</button>
+
+    <button type="submit" [disabled]="!eventForm.valid">Submit Event</button>
+  </form>
+</div>
+
 <input type="file" (change)="onFileSelected($event)" />

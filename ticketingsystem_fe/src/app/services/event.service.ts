@@ -12,6 +12,10 @@ export class EventService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
+  createEvent(data: any): Observable<any> {
+    return this.http.post(`${this.eventUrl}`, data)
+  }
+
   getEvent(id: number): Observable<any> {
     return this.http.get(`${this.eventUrl}/${id}`);
 
