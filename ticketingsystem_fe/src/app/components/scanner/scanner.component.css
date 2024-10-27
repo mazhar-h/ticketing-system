@@ -17,6 +17,14 @@
   margin: 20px 0;
 }
 
+#reader {
+  overflow: hidden; /* Prevents any overflow if the video stretches out of bounds */
+}
+
+#reader video {
+  object-fit: cover; /* Ensures the video stretches to cover the entire container */
+}
+
 .scanner-btn {
   position: absolute;
   bottom: 100px;
