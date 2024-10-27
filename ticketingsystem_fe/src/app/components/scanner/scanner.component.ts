@@ -45,7 +45,7 @@ export class ScannerComponent implements OnInit, AfterViewInit, OnDestroy {
         { facingMode: 'environment' },
         {
           fps: 10,
-          qrbox: { width: 250, height: 250 },
+          qrbox: { width: 1000, height: 1000 },
         },
         (decodedText) => this.handleQrCodeSuccess(decodedText),
         (errorMessage) => console.log('QR Code scan error:', errorMessage)
@@ -88,12 +88,13 @@ export class ScannerComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isValid = true;
        },
       error: (error: any) => {
+        console.log(error)
         this.isValid = false;
-        if (error.name === 'HttpErrorResponse') {
+        if (error.status === '403') {
           this.invalidMessage = 'Unauthorized scanning';
           return;
         }
-        this.invalidMessage = error;
+        this.invalidMessage = error.error;
       }
     })
   }

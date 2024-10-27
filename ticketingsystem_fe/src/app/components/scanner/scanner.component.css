@@ -12,8 +12,8 @@
   }
 
   #reader {
-    width: 400px;       /* Full width of the container */
-    height: 300px;     /* Full height of the viewport, or set to a specific px value */
+    width: 100%;       /* Full width of the container */
+    height: 100vh;     /* Full height of the viewport, or set to a specific px value */
     position: relative;
     overflow: hidden;  /* Prevents any overflow if the video stretches out of bounds */
   }
