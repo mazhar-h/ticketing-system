@@ -41,7 +41,7 @@ export class ScannerComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.qrCodeScanner) return;
     
     const isMobile = window.innerWidth < 600;
-    const qrBoxSize = isMobile ? 250 : 250;
+    const qrBoxSize = isMobile ? 250 : 300;
 
     this.qrCodeScanner
       .start(
