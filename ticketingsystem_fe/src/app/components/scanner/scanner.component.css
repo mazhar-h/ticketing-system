@@ -31,8 +31,10 @@
 }
 
 .checkmark-image {
-  width: 100%;
+  width: 60%;
   max-width: 300px;  
+  position: absolute;
+  bottom: 450px;
 }
 
 .ticket-pass {
@@ -45,7 +47,7 @@
 }
 
 .invalid-image {
-  width: 100%;
+  width: 60%;
   max-width: 300px;
   position: absolute;
   bottom: 450px;
