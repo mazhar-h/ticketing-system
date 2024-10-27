@@ -1,51 +1,69 @@
 .scanner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  height: 100vh;
+  background-color: #f4f4f9;
+  text-align: center;
+}
+
+.scanner-box {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  aspect-ratio: 1; /* Keeps the scanning area square */
+  border: 2px solid #333;
+  margin: 20px 0;
+}
+
+.scanner-btn {
+  position: absolute;
+  bottom: 100px;
+}
+
+.ticket-pass {
+  position: absolute;
+  color: chartreuse;
+  font-size: 50px;
+  font-weight: 200;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.ticket-fail {
+  position: absolute;
+  color: rgb(255, 0, 81);
+  font-size: 50px;
+  font-weight: 200;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.invalid-msg {
+  position: absolute;
+  bottom: 400px;
+}
+
+button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #357abd;
+}
+
+@media (max-width: 600px) {
   .scanner-box {
-    width: 300px;
-    height: 300px;
-    border: 2px solid #000;
+    width: 90%; /* Adjust width to fit smaller screens */
+    height: auto;
   }
-
-  #reader {
-    width: 100%;       /* Full width of the container */
-    height: 100vh;     /* Full height of the viewport, or set to a specific px value */
-    position: relative;
-    overflow: hidden;  /* Prevents any overflow if the video stretches out of bounds */
+  button {
+    width: 100%; /* Full-width button for smaller screens */
   }
-
-  #reader video {
-    object-fit: cover; /* Ensures the video stretches to cover the entire container */
-    width: 100%;
-    height: 100%;
-  }
-
-  .scanner-btn {
-    position: absolute;
-    bottom: 100px;
-  }
-
-  .ticket-pass {
-    position: absolute;
-    color: chartreuse;
-    font-size: 50px;
-    font-weight: 200;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-
-  .ticket-fail {
-    position: absolute;
-    color: rgb(255, 0, 81);
-    font-size: 50px;
-    font-weight: 200;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-
-  .invalid-msg {
-    position: absolute;
-    bottom: 400px;
-  }
+}
