@@ -30,18 +30,30 @@
   bottom: 100px;
 }
 
+.checkmark-image {
+  width: 100%;
+  max-width: 300px;  
+}
+
 .ticket-pass {
   position: absolute;
-  color: chartreuse;
+  color: #78b13f;
   font-size: 50px;
   font-weight: 1000;
   font-family: Arial, Helvetica, sans-serif;
   bottom: 400px;
 }
 
+.invalid-image {
+  width: 100%;
+  max-width: 300px;
+  position: absolute;
+  bottom: 450px;
+}
+
 .ticket-fail {
   position: absolute;
-  color: rgb(255, 0, 81);
+  color: #D50000;
   font-size: 50px;
   font-weight: 1000;
   font-family: Arial, Helvetica, sans-serif;
@@ -50,7 +62,7 @@
 
 .invalid-msg {
   position: absolute;
-  bottom: 400px;
+  bottom: 350px;
 }
 
 button {

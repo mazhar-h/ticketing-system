@@ -80,7 +80,6 @@ export class ScannerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   handleQrCodeSuccess(decodedText: string) {
     console.log('QR code detected:', decodedText);
-    this.isDetermined = true;
     this.validateTicket(decodedText);
     this.stopScanner();
   }
@@ -89,10 +88,12 @@ export class ScannerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.ticketService.validateTicket(qrCodeData).subscribe({
       next: (response: any) => {
         this.isValid = true;
+        this.isDetermined = true;
        },
       error: (error: any) => {
         console.log(error)
         this.isValid = false;
+        this.isDetermined = true;
         if (error.status === 403) {
           this.invalidMessage = 'Unauthorized scanning';
           return;

@@ -3,7 +3,9 @@
     <button (click)="toggleScanner()" class="scanner-btn">
         {{ isScanning ? 'Stop Scanner' : 'Start Scanner' }}
       </button>
+      <img *ngIf="isValid && isDetermined" src="assets/checkmark.svg" alt="PASS" class="checkmark-image" />
       <div *ngIf="isValid && isDetermined" class="ticket-pass">PASS</div>
+      <img *ngIf="!isValid && isDetermined" src="assets/invalid.svg" alt="INVALID" class="invalid-image" />
       <div *ngIf="!isValid && isDetermined" class="ticket-fail">INVALID</div>
       <div *ngIf="!isValid && isDetermined" class="invalid-msg">Reason: {{ invalidMessage }}</div>    
   </div>
