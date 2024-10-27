@@ -41,7 +41,7 @@ export class ScannerComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.qrCodeScanner) return;
     
     const isMobile = window.innerWidth < 600;
-    const qrBoxSize = isMobile ? 250 : 300;
+    const qrBoxSize = isMobile ? 300 : 500;
 
     this.qrCodeScanner
       .start(
@@ -93,7 +93,7 @@ export class ScannerComponent implements OnInit, AfterViewInit, OnDestroy {
       error: (error: any) => {
         console.log(error)
         this.isValid = false;
-        if (error.status === '403') {
+        if (error.status === 403) {
           this.invalidMessage = 'Unauthorized scanning';
           return;
         }

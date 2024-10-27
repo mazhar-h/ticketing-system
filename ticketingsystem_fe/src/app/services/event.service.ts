@@ -27,7 +27,7 @@ export class EventService {
   }
 
   updateEvent(eventId: string, updatedEvent: { name: any; performerIds: any; date: any; }) {
-    return this.http.post(`${this.eventUrl}/${eventId}`, updatedEvent)
+    return this.http.put(`${this.eventUrl}/${eventId}`, updatedEvent)
 
   }
 
