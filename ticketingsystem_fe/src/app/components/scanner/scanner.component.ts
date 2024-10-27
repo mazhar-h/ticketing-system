@@ -45,7 +45,7 @@ export class ScannerComponent implements OnInit, AfterViewInit, OnDestroy {
         { facingMode: 'environment' },
         {
           fps: 10,
-          qrbox: { width: 1000, height: 1000 },
+          qrbox: { width: window.innerWidth * .70, height: window.innerHeight * .85 },
         },
         (decodedText) => this.handleQrCodeSuccess(decodedText),
         (errorMessage) => console.log('QR Code scan error:', errorMessage)
