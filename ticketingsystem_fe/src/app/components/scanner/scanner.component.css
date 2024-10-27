@@ -34,16 +34,18 @@
   position: absolute;
   color: chartreuse;
   font-size: 50px;
-  font-weight: 200;
+  font-weight: 1000;
   font-family: Arial, Helvetica, sans-serif;
+  bottom: 400px;
 }
 
 .ticket-fail {
   position: absolute;
   color: rgb(255, 0, 81);
   font-size: 50px;
-  font-weight: 200;
+  font-weight: 1000;
   font-family: Arial, Helvetica, sans-serif;
+  bottom: 400px;
 }
 
 .invalid-msg {
