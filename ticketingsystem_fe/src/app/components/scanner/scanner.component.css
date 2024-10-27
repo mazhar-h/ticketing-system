@@ -18,6 +18,12 @@
     overflow: hidden;  /* Prevents any overflow if the video stretches out of bounds */
   }
 
+  #reader video {
+    object-fit: cover; /* Ensures the video stretches to cover the entire container */
+    width: 100%;
+    height: 100%;
+  }
+
   .scanner-btn {
     position: absolute;
     bottom: 100px;

@@ -39,13 +39,23 @@ export class ScannerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isDetermined = false;
 
     if (!this.qrCodeScanner) return;
+    
+    var width, height;
+    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+      width = window.innerWidth * .50;
+      height = window.innerHeight * .20;
+    } else {
+      width = window.innerWidth * .70;
+      height = window.innerHeight * 1;
+    }
 
     this.qrCodeScanner
       .start(
         { facingMode: 'environment' },
         {
           fps: 10,
-          qrbox: { width: window.innerWidth * .50, height: window.innerHeight * .50 },
+          qrbox: { width: width, height: height },
         },
         (decodedText) => this.handleQrCodeSuccess(decodedText),
         (errorMessage) => console.log('QR Code scan error:', errorMessage)
