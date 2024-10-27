@@ -8,9 +8,14 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class EventService {
+
   private eventUrl = environment.apiUrl + '/ticketing/events';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
+
+  getEventsByVenue() {
+    return this.http.get(`${this.eventUrl}/venue`);
+  }
 
   createEvent(data: any): Observable<any> {
     return this.http.post(`${this.eventUrl}`, data)
@@ -18,6 +23,11 @@ export class EventService {
 
   getEvent(id: number): Observable<any> {
     return this.http.get(`${this.eventUrl}/${id}`);
+
+  }
+
+  updateEvent(eventId: string, updatedEvent: { name: any; performerIds: any; date: any; }) {
+    return this.http.post(`${this.eventUrl}/${eventId}`, updatedEvent)
 
   }
 

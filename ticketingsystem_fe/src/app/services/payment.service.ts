@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/enivornment';
 import { AuthService } from './auth.service';
-import { loadStripe, Stripe, StripeCardElement, StripeCardNumberElement, StripeElements } from '@stripe/stripe-js';
+import { loadStripe, PaymentIntentResult, Stripe, StripeElements } from '@stripe/stripe-js';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class PaymentService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   async initializeStripe() {
-    this.stripe = await loadStripe('pk_test_51QCCOIKH1UdL2G8klFomufbtt6Bb2wTBji1M7qML3lJ1afTtKYHDNXOxpHmeRm0CtNcnKuIOEtmSgJpob4T9FKXd00zL0H71ce');
+    this.stripe = await loadStripe(environment.stripePublishableKey);
     this.elements = this.stripe?.elements() ?? null;
   }
 
@@ -24,11 +24,11 @@ export class PaymentService {
     return this.elements;
   }
 
-  createPaymentIntent(ticketIds: string[]) {
+  createPaymentIntent(ticketIds: string[]): Observable<any> {
     return this.http.post(`${this.paymentUrl}/create-payment-intent`, { ticketIds: ticketIds }, { headers: { Authorization: 'Bearer ' + this.authService.getToken() } });
   }
 
-  confirmPayment(clientSecret: string, cardElement: any) {
+  confirmPayment(clientSecret: string, cardElement: any): Promise<PaymentIntentResult> | undefined {
     return this.stripe?.confirmCardPayment(clientSecret, {
       payment_method: {
         card: cardElement

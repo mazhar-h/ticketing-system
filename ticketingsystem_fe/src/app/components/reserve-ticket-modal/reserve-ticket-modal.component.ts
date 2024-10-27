@@ -1,8 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { BookingService } from 'src/app/services/booking.service';
-import { Appearance, loadStripe, Stripe } from '@stripe/stripe-js';
 import { PaymentService } from 'src/app/services/payment.service';
 
 @Component({
@@ -16,7 +13,7 @@ export class ReserveTicketModalComponent implements OnInit {
   @Input() totalAmount: number = 0;
   @Output() closeModal = new EventEmitter<void>();
   @Output() closeModalAfterBooking = new EventEmitter<void>();
-  bookingId: number | undefined;
+  bookingId!: number;
   isLoggedIn = false;
   timer: number = 300;
   interval: any;
@@ -30,14 +27,15 @@ export class ReserveTicketModalComponent implements OnInit {
 
   constructor(
     private bookingService: BookingService,
-    private router: Router,
     private paymentService: PaymentService
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.checkLoginStatus();
-    await this.paymentService.initializeStripe();
-    this.setupCardElements();
+    if (this.totalAmount !== 0) {
+      await this.paymentService.initializeStripe();
+      this.setupCardElements();
+    }
     this.createReservation();
   }
 
@@ -57,6 +55,10 @@ export class ReserveTicketModalComponent implements OnInit {
   }
 
   pay() {
+    if (this.totalAmount === 0) {
+      this.confirmPurchase(null);
+      return;
+    }
     this.paymentService
       .createPaymentIntent(this.ticketIds)
       .subscribe((response: any) => {
@@ -104,42 +106,43 @@ export class ReserveTicketModalComponent implements OnInit {
       for (let i = 0; i < this.ticketIds.length; i++) {
         numberArray.push(Number(this.ticketIds[i]));
       }
-      this.bookingService.createReservation(numberArray).subscribe(
-        (response) => {
+      this.bookingService.createReservation(numberArray).subscribe({
+        next: (response) => {
           this.bookingId = response.id;
           console.log('Reservation created:', response);
         },
-        (error) => {
+        error: (error) => {
           this.isTicketsAvailable = false;
           console.error('Error creating reservation:', error);
-        }
-      );
+        },
+      });
     }
   }
 
-  confirmPurchase(paymentIntentId: string): void {
+  confirmPurchase(paymentIntentId: string | null): void {
     this.bookingService
-      .confirmReservation(Number(this.bookingId), paymentIntentId)
-      .subscribe(
-        (response) => {
+      .confirmReservation(this.bookingId, paymentIntentId)
+      .subscribe({
+        next: (response) => {
           console.log('Tickets purchased:', response);
           this.openBookingConfirmationModal();
         },
-        (error) => {
+        error: (error) => {
+          this.isTicketsAvailable = false;
           console.error('Error confirming purchase:', error);
-        }
-      );
+        },
+      });
   }
 
   cancelReservation(): void {
-    this.bookingService.releaseReservation(Number(this.bookingId)).subscribe(
-      (response) => {
+    this.bookingService.releaseReservation(this.bookingId).subscribe({
+      next: (response) => {
         console.log('Reservation released:', response);
       },
-      (error) => {
+      error: (error) => {
         console.error('Error releasing reservation:', error);
-      }
-    );
+      },
+    });
   }
 
   getSelectedTickets(): any[] {
@@ -152,29 +155,28 @@ export class ReserveTicketModalComponent implements OnInit {
   startTimer(): void {
     this.interval = setInterval(() => {
       if (this.timer > 0) {
-        this.timer--; // Decrement the timer
+        this.timer--;
       } else {
-        clearInterval(this.interval); // Stop the timer when it reaches 0
-        this.cancelReservation(); // Optional: release any reservation
-        this.close(); // Close the modal
+        clearInterval(this.interval);
+        this.cancelReservation();
       }
     }, 1000);
   }
 
   close(): void {
-    if (this.isLoggedIn && !this.showConfirmation) this.cancelReservation();
-    clearInterval(this.interval); // Clear the interval when closing the modal
-    this.closeModal.emit(); // Emit the close event
+    if (this.isLoggedIn && !this.showConfirmation && this.isTicketsAvailable)
+      this.cancelReservation();
+    clearInterval(this.interval);
+    this.closeModal.emit();
   }
 
   closeReserveModalAfterBooking() {
-    clearInterval(this.interval); // Clear the interval when closing the modal
+    clearInterval(this.interval);
     this.closeModalAfterBooking.emit();
-
   }
 
   openBookingConfirmationModal() {
-    clearInterval(this.interval); // Clear the interval when closing the modal
+    clearInterval(this.interval);
     this.tickets = this.getSelectedTickets();
     this.showReserveModal = false;
     this.showConfirmation = true;
@@ -187,6 +189,6 @@ export class ReserveTicketModalComponent implements OnInit {
   }
 
   padZero(num: number): string {
-    return num < 10 ? '0' + num : num.toString(); // Pad single-digit numbers with a leading zero
+    return num < 10 ? '0' + num : num.toString();
   }
 }

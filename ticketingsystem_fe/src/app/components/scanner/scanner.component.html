@@ -1,0 +1,9 @@
+<div class="scanner-container">
+    <div id="reader" class="scanner-box"></div>
+    <button (click)="toggleScanner()" class="scanner-btn">
+        {{ isScanning ? 'Stop Scanner' : 'Start Scanner' }}
+      </button>
+      <div *ngIf="isValid && isDetermined" class="ticket-pass">PASS</div>
+      <div *ngIf="!isValid && isDetermined" class="ticket-fail">INVALID</div>
+      <div *ngIf="!isValid && isDetermined" class="invalid-msg">Reason: {{ invalidMessage }}</div>    
+  </div>

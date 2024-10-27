@@ -40,11 +40,12 @@ export class CreateEventComponent implements OnInit {
   ) {
     this.eventForm = this.fb.group({
       name: ['', Validators.required],
-      performers: this.fb.array([]), // Array of performers
-      tickets: this.fb.array([]), // Array of tickets
+      eventDate: [null, Validators.required],
+      ticketExpirationDate: [null, Validators.required],
+      performers: this.fb.array([]),
+      tickets: this.fb.array([]),
     });
 
-    // Initialize search result arrays for each performer
     this.performers.valueChanges.subscribe(() => {
       this.performerSearchResults = this.performers.controls.map(() => []);
     });
@@ -114,7 +115,7 @@ export class CreateEventComponent implements OnInit {
 
   onSearchPerformer(index: number, searchText: string) {
     this.currentIndex = index;
-    this.searchTerms.next(searchText); 
+    this.searchTerms.next(searchText);
   }
 
   selectPerformer(index: number, performer: any) {
@@ -183,13 +184,15 @@ export class CreateEventComponent implements OnInit {
           let eventData = {
             name: eventFormData.name,
             venueId: response.id,
+            date: eventFormData.eventDate,
+            ticketExpiry: eventFormData.ticketExpirationDate,
             tickets: this.formTicketsToRequestTickets(),
             performerIds: this.selectedPerformerIds,
           };
           this.eventService.createEvent(eventData).subscribe({
             next: () => {
               this.eventForm.reset();
-              alert("Event created!");
+              alert('Event created!');
             },
           });
         },

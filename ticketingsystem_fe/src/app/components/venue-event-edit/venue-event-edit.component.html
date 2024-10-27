@@ -1,0 +1,91 @@
+<h2>Edit Event</h2>
+
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="name">Event Name:</label>
+    <input id="name" formControlName="name" />
+  </div>
+
+  <div>
+    <label>Performers:</label>
+    <div formArrayName="performers">
+      <div
+        *ngFor="let performer of performersArray.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <input formControlName="name" placeholder="Performer Name" />
+        <button type="button" (click)="removePerformer(i)">Remove</button>
+
+        <!-- Display performer suggestions -->
+        <ul *ngIf="performerSuggestions[i].length > 0" class="suggestions-list">
+          <li
+            *ngFor="let suggestion of performerSuggestions[i]"
+            (click)="selectPerformer(i, suggestion)"
+          >
+            {{ suggestion.name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <button type="button" (click)="addPerformer()">Add Performer</button>
+  </div>
+
+  <div>
+    <label for="date">Event Date & Time:</label>
+    <input type="datetime-local" id="date" formControlName="date" />
+  </div>
+
+  <!-- Status Selection -->
+  <div>
+    <label for="status">Event Status:</label>
+    <select id="status" formControlName="status">
+      <option *ngFor="let option of statusOptions" [value]="option">
+        {{ option }}
+      </option>
+    </select>
+  </div>
+
+  <div>
+    <label for="ticketExpirationDate">Ticket Expiration Date: </label>
+    <input
+      type="datetime-local"
+      id="ticketExpirationDate"
+      formControlName="ticketExpirationDate"
+    />
+  </div>
+
+  <!-- Tickets -->
+  <div formArrayName="tickets">
+    <label>Tickets:</label>
+    <div
+      *ngFor="let ticket of tickets.controls; let j = index"
+      [formGroupName]="j"
+    >
+      <input
+        type="text"
+        formControlName="id"
+        placeholder="Ticket ID"
+        readonly
+      />
+      <input type="text" formControlName="name" placeholder="Ticket Name" />
+      <input type="number" formControlName="price" placeholder="Price" />
+      <select formControlName="status">
+        <option *ngFor="let status of ticketStatuses" [value]="status">
+          {{ status }}
+        </option>
+      </select>
+      <button
+        type="button"
+        (click)="removeTicket(j)"
+        [hidden]="ticket.get('id')?.value"
+      >
+        Remove Ticket
+      </button>
+    </div>
+    <button type="button" (click)="addTicket()">Add Ticket</button>
+  </div>
+
+  <div><input type="file" (change)="onFileSelected($event)" /></div>
+
+  <button type="submit" [disabled]="eventForm.invalid">Save Changes</button>
+</form>

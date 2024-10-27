@@ -11,21 +11,44 @@
       />
     </div>
 
+    <!-- Event Date -->
+    <div>
+      <label for="eventDate">Event Date: </label>
+      <input id="eventDate" formControlName="eventDate" type="datetime-local" />
+    </div>
+
+    <!-- Ticket Expiration Date -->
+    <div>
+      <label for="ticketExpirationDate">Ticket Expiration Date: </label>
+      <input
+        id="ticketExpirationDate"
+        formControlName="ticketExpirationDate"
+        type="datetime-local"
+      />
+    </div>
+
     <h3>Performers</h3>
     <div formArrayName="performers">
-        <div *ngFor="let performer of performers.controls; let i = index" [formGroupName]="i">
-            <input
-              type="text"
-              formControlName="name"
-              (input)="onSearchPerformer(i, performer.get('name')?.value)"
-              placeholder="Search Performer"
-            />
-            <!-- Display the suggestions under the correct input field -->
-            <ul *ngIf="performerSearchResults[i]?.length">
-              <li class="performer-list-item" *ngFor="let result of performerSearchResults[i]" (click)="selectPerformer(i, result)">
-                {{ result.name }}
-              </li>
-            </ul>
+      <div
+        *ngFor="let performer of performers.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <input
+          type="text"
+          formControlName="name"
+          (input)="onSearchPerformer(i, performer.get('name')?.value)"
+          placeholder="Search Performer"
+        />
+        <!-- Display the suggestions under the correct input field -->
+        <ul *ngIf="performerSearchResults[i]?.length" class="suggestions-list">
+          <li
+            class="performer-list-item"
+            *ngFor="let result of performerSearchResults[i]"
+            (click)="selectPerformer(i, result)"
+          >
+            {{ result.name }}
+          </li>
+        </ul>
         <button type="button" (click)="removePerformer(i)">
           Remove Performer
         </button>

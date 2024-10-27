@@ -11,32 +11,38 @@ export class SearchResultsComponent implements OnInit {
   events: any[] = [];
   searchText: string = '';
 
-  constructor(private route: ActivatedRoute, private router: Router, private eventService: EventService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private eventService: EventService
+  ) {}
 
   ngOnInit(): void {
-    // Get the search query from the route parameters
     this.route.queryParams.subscribe((params) => {
       this.searchText = params['query'] || '';
 
-      // Make the GET request to fetch events based on the search query
       if (this.searchText) {
-        this.eventService.searchEvents(this.searchText).subscribe(
-          (events) => {
-            this.events = events;
+        this.eventService.searchEvents(this.searchText).subscribe({
+          next: (events) => {
+            this.events = events.filter(
+              (event: any) => event.status === 'OPEN'
+            );
           },
-          (error) => {
+          error: (error) => {
             console.error('Error fetching events:', error);
-          }
-        );
+          },
+        });
       } else {
-        this.eventService.getAllEvents().subscribe(
-          (events) => {
-            this.events = events;
+        this.eventService.getAllEvents().subscribe({
+          next: (events) => {
+            this.events = events.filter(
+              (event: any) => event.status === 'OPEN'
+            );
           },
-          (error) => {
+          error: (error) => {
             console.error('Error fetching events:', error);
-          }
-        );
+          },
+        });
       }
     });
   }

@@ -8,15 +8,19 @@
   
       <div class="modal-body" *ngIf="bookingDetails">
         <p><strong>Booking ID:</strong> {{ bookingDetails.id }}</p>
-        <p><strong>Booking Date:</strong> {{ bookingDetails.date | date:'short' }}</p>
+        <p><strong>Booking Date:</strong> {{ bookingDetails.date | date:'shortDate' }}</p>
         <p><strong>Event:</strong> {{ bookingDetails.event.name }}</p>
+        <p><strong>Event Status:</strong> {{ bookingDetails.event.status }}</p>
+        <p><strong>Event Date:</strong> {{ bookingDetails.event.date | date:'shortDate' }}</p>
+        <p><strong>Show Time:</strong> {{ getTimeFromDate(bookingDetails.event.date) }}</p>
         <p><strong>Venue:</strong> {{ bookingDetails.venue.name }}</p>
         <p><strong>Total Amount:</strong> {{ bookingDetails.totalPrice | currency }}</p>
   
         <h5>Tickets</h5>
         <ul>
           <li *ngFor="let ticket of bookingDetails.tickets">
-            Ticket ID: {{ ticket.id }}, {{ ticket.name }} , Price: {{ ticket.price | currency }}
+            Ticket ID: {{ ticket.id }}, {{ ticket.name }} , Price: {{ ticket.price | currency }} <span *ngIf="ticket.status==='REFUNDED'"> {{ ticket.status }}</span>
+            <canvas id="ticket-{{ticket.id}}"></canvas>
           </li>
         </ul>
       </div>

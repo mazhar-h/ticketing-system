@@ -18,6 +18,8 @@
   width: 80%;
   max-width: 500px;
   border-radius: 10px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .modal-header {

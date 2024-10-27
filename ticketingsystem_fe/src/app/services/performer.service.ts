@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '../environments/enivornment';
 import { AuthService } from './auth.service';
 
@@ -14,6 +14,10 @@ export class PerformerService {
 
   searchPerformers(keyword: any): Observable<any> {
     return this.http.get(`${this.performerUrl}/search?keyword=${keyword}`);
+  }
+
+  register(registerData: { username: string; name: string; email: string; password: string }): Observable<any> {
+    return this.http.post(`${this.performerUrl}/register`, registerData, { responseType: 'text' });
   }
 
 }

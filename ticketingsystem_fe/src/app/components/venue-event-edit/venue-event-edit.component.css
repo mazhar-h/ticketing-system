@@ -1,21 +1,16 @@
-.container {
-  max-width: 600px;
-  margin: auto;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-button {
-  margin: 5px 0;
-}
-
-.performer-list-item {
-    cursor: pointer;
-}
-
-.suggestions-list {
+form div {
+    margin-bottom: 10px;
+  }
+  
+  label {
+    margin-right: 10px;
+  }
+  
+  button {
+    margin-top: 15px;
+  }
+  
+  .suggestions-list {
     list-style-type: none;
     padding: 0;
     margin: 0;

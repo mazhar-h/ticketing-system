@@ -1,0 +1,45 @@
+.scanner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .scanner-box {
+    width: 300px;
+    height: 300px;
+    border: 2px solid #000;
+  }
+
+  #reader {
+    width: 400px;       /* Full width of the container */
+    height: 300px;     /* Full height of the viewport, or set to a specific px value */
+    position: relative;
+    overflow: hidden;  /* Prevents any overflow if the video stretches out of bounds */
+  }
+
+  .scanner-btn {
+    position: absolute;
+    bottom: 250px;
+  }
+
+  .ticket-pass {
+    position: absolute;
+    color: chartreuse;
+    font-size: 50px;
+    font-weight: 200;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .ticket-fail {
+    position: absolute;
+    color: rgb(255, 0, 81);
+    font-size: 50px;
+    font-weight: 200;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .invalid-msg {
+    position: absolute;
+    bottom: 400px;
+  }

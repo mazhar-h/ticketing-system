@@ -7,6 +7,12 @@
   background-color: #f9f9f9;
 }
 
+.required {
+  color: red;
+  margin-left: 2px;
+  font-weight: bold;
+}
+
 .password {
   margin-bottom: 10px;
 }
@@ -20,7 +26,7 @@ h2 {
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 label {

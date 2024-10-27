@@ -35,6 +35,9 @@ import { BookingConfirmationModalComponent } from './components/booking-confirma
 import { BookingsComponent } from './components/bookings/bookings.component';
 import { BookingDetailsModalComponent } from './components/booking-details-modal/booking-details-modal.component';
 import { CreateEventComponent } from './components/create-event/create-event.component';
+import { VenueEventListComponent } from './components/venue-event-list/venue-event-list.component';
+import { VenueEventEditComponent } from './components/venue-event-edit/venue-event-edit.component';
+import { ScannerComponent } from './components/scanner/scanner.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -62,7 +65,10 @@ import { CreateEventComponent } from './components/create-event/create-event.com
         BookingConfirmationModalComponent,
         BookingsComponent,
         BookingDetailsModalComponent,
-        CreateEventComponent
+        CreateEventComponent,
+        VenueEventListComponent,
+        VenueEventEditComponent,
+        ScannerComponent
     ],
     bootstrap: [AppComponent], 
     imports: [

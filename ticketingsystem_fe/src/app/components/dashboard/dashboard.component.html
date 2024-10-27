@@ -5,7 +5,18 @@
 
   <button (click)="logout()" class="btn btn-danger">Logout</button>
   <button routerLink="/settings" class="btn btn-danger">Settings</button>
-  <button routerLink="/bookings" class="btn btn-danger">Bookings</button>
+  <div *ngIf="!roles.includes('ROLE_VENUE') && !roles.includes('ROLE_PERFORMER')">
+    <button routerLink="/bookings" class="btn btn-danger">Bookings</button>
+  </div>
+  <div *ngIf="roles.includes('ROLE_VENUE')">
+    <button routerLink="/venue/events" class="btn btn-danger">
+      Venue Events
+    </button>
+    <button routerLink="/venue/events/create" class="btn btn-danger">
+      Create Event
+    </button>
+    <button routerLink="/scanner" class="btn btn-danger">Scanner</button>
+  </div>
 
   <div class="weather-dashboard">
     <div *ngIf="weatherData">
@@ -22,51 +33,28 @@
   </div>
 
   <div class="search-container">
-    <input 
-      type="text" 
-      placeholder="Search for events..." 
-      [(ngModel)]="searchText" 
-      (ngModelChange)="onSearchChange()"
-      class="search-input"
-    />
+    <input type="text" placeholder="Search for events..." [(ngModel)]="searchText" (ngModelChange)="onSearchChange()"
+      class="search-input" />
     <button class="search-button" (click)="searchEvents()">Search</button>
   </div>
 
   <!-- Form to create a new user -->
-  <div class="create-container" *ngIf="isAdmin">
+  <div class="create-container" *ngIf="roles.includes('ROLE_ADMIN')">
     <h3>Create New User</h3>
     <form (ngSubmit)="createUser()">
       <div class="form-group">
         <label for="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          [(ngModel)]="newUser.username"
-          name="username"
-          required
-        />
+        <input type="text" id="username" [(ngModel)]="newUser.username" name="username" required />
       </div>
 
       <div class="form-group">
         <label for="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          [(ngModel)]="newUser.email"
-          name="email"
-          required
-        />
+        <input type="email" id="email" [(ngModel)]="newUser.email" name="email" required />
       </div>
 
       <div class="form-group">
         <label for="role">Role:</label>
-        <input
-          type="text"
-          id="role"
-          [(ngModel)]="newUser.role"
-          name="role"
-          required
-        />
+        <input type="text" id="role" [(ngModel)]="newUser.role" name="role" required />
       </div>
 
       <button type="submit">Create User</button>
@@ -74,51 +62,28 @@
   </div>
 
   <!-- Form to update a user -->
-  <div class="update-container" *ngIf="isAdmin">
+  <div class="update-container" *ngIf="roles.includes('ROLE_ADMIN')">
     <h3>Update User</h3>
     <form (ngSubmit)="updateUser()">
       <div class="form-group">
         <label for="currentUsername">Current Username:</label>
-        <input
-          type="text"
-          id="currentUsername"
-          [(ngModel)]="updateUserModel.currentUsername"
-          name="currentUsername"
-          required
-        />
+        <input type="text" id="currentUsername" [(ngModel)]="updateUserModel.currentUsername" name="currentUsername"
+          required />
       </div>
 
       <div class="form-group">
         <label for="newUsername">New Username:</label>
-        <input
-          type="text"
-          id="newUsername"
-          [(ngModel)]="updateUserModel.newUsername"
-          name="newUsername"
-          required
-        />
+        <input type="text" id="newUsername" [(ngModel)]="updateUserModel.newUsername" name="newUsername" required />
       </div>
 
       <div class="form-group">
         <label for="newEmail">New Email:</label>
-        <input
-          type="email"
-          id="newEmail"
-          [(ngModel)]="updateUserModel.newEmail"
-          name="newEmail"
-          required
-        />
+        <input type="email" id="newEmail" [(ngModel)]="updateUserModel.newEmail" name="newEmail" required />
       </div>
 
       <div class="form-group">
         <label for="newRole">New Role:</label>
-        <input
-          type="text"
-          id="newRole"
-          [(ngModel)]="updateUserModel.newRole"
-          name="newRole"
-          required
-        />
+        <input type="text" id="newRole" [(ngModel)]="updateUserModel.newRole" name="newRole" required />
       </div>
 
       <button type="submit">Update User</button>
@@ -126,18 +91,13 @@
   </div>
 
   <!-- Delete User Section -->
-  <div class="delete-container" *ngIf="isAdmin">
+  <div class="delete-container" *ngIf="roles.includes('ROLE_ADMIN')">
     <div>
       <h3>Delete a User</h3>
       <form (ngSubmit)="onDeleteUser()">
         <div>
           <label for="username">Username:</label>
-          <input
-            type="text"
-            [(ngModel)]="deleteUsername"
-            name="username"
-            required
-          />
+          <input type="text" [(ngModel)]="deleteUsername" name="username" required />
         </div>
         <button type="submit">Delete User</button>
       </form>
@@ -145,7 +105,7 @@
   </div>
 
   <!-- Button to toggle the users table -->
-  <div class="get-container" *ngIf="isAdmin">
+  <div class="get-container" *ngIf="roles.includes('ROLE_ADMIN')">
     <div>
       <button (click)="toggleUsers()">
         {{ isTableVisible ? "Hide Users" : "Show Users" }}

@@ -25,8 +25,8 @@
         <li *ngFor="let ticket of getSelectedTickets()">{{ ticket.id }} {{ ticket.name }}</li>
       </ul>
 
-      <p>Total: ${{ totalAmount.toFixed(2) }}</p>
-      <div>
+      <p>Total: {{ totalAmount | currency }}</p>
+      <div *ngIf="totalAmount !== 0">
         <form id="payment-form">
           <label for="card-number-element">Card Number</label>
           <div id="card-number-element" class="stripe-input"></div>
@@ -34,10 +34,9 @@
           <div id="card-expiry-element" class="stripe-input"></div>
           <label for="card-cvc-element">Security Code</label>
           <div id="card-cvc-element" class="stripe-input"></div>
-
-          <button type="button" (click)="pay()">Pay</button>
         </form>
       </div>
+      <button type="button" (click)="pay()">Pay</button>
     </div>
 
     <ng-template #loginPrompt>

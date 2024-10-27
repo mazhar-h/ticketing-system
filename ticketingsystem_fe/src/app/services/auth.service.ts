@@ -64,12 +64,21 @@ export class AuthService {
       return false;
   }
 
+  saveRoles(roles: string[]) {
+    localStorage.setItem('roles', JSON.stringify(roles));
+  }
+
   saveAccessToken(accessToken: string): void {
     localStorage.setItem('token', accessToken);
   }
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  getRoles(): string[] | null {
+    let text = localStorage.getItem('roles');
+    return JSON.parse(text as string);
   }
 
   logout() {

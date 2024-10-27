@@ -3,14 +3,17 @@ import { CanActivate, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
-
+export class UserGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): boolean {
-    if (this.authService.isAuthenticated()) {
+    if (
+      this.authService.isAuthenticated() &&
+      (this.authService.getRoles()?.includes('ROLE_USER') ||
+        this.authService.getRoles()?.includes('ROLE_ADMIN'))
+    ) {
       return true;
     } else {
       this.router.navigate(['/forbidden']);

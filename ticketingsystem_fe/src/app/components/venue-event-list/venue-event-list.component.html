@@ -1,0 +1,14 @@
+<div *ngIf="events.length === 0">
+  <p>No events found for this venue.</p>
+</div>
+
+<ul *ngIf="events.length > 0">
+  <h2>Events for {{ events[0]?.venue.name }}</h2>
+  <li *ngFor="let event of events">
+    <span
+      >{{ event.name }} - {{ event.date | date : "shortDate" }} -
+      {{ event.status }}</span
+    >
+    <button (click)="editEvent(event.id)">Edit</button>
+  </li>
+</ul>

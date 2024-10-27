@@ -93,8 +93,8 @@ export class LoginComponent implements OnInit {
   }
 
   redirectDashboard(): void {
-    let token = localStorage.getItem('token');
-    if (token) this.router.navigate(['/dashboard']);
+    if (this.authService.isAuthenticated())
+      this.router.navigate(['/dashboard']);
   }
 
   onLogin(): void {
@@ -180,7 +180,7 @@ export class LoginComponent implements OnInit {
           const accessToken = response.authResponse.accessToken;
           this.sendFacebookTokenToBackend(accessToken);
         } else {
-          console.log('User cancelled login or did not fully authorize.');
+          console.log('User canceled login or did not fully authorize.');
         }
       },
       { scope: 'email' }

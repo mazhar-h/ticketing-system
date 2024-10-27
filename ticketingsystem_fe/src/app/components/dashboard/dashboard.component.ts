@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
   users: any[] = [];
   isTableVisible: boolean = false;
   deleteUsername: string = '';
-  isAdmin: boolean = false;
+  roles: string[] = [];
   searchText: string = '';
 
 
@@ -53,7 +53,6 @@ export class DashboardComponent implements OnInit {
         this.message = response;
       },
       error: (error: any) => {
-        console.log(localStorage.getItem('token'));
         console.error('Error fetching hello message:', error);
       },
     });
@@ -125,10 +124,12 @@ export class DashboardComponent implements OnInit {
   }
 
   checkUserRoles(): void {
-    const userRoles = this.userService.getUser().subscribe({
-      next: response => {
-         let val = response.roles.some((e: { name: string; }) => e.name === 'ROLE_ADMIN');
-         this.isAdmin = val;
+    this.userService.getUser().subscribe({
+      next: response => { 
+        response.roles.forEach((role: any) => {
+          this.roles.push(role.name);
+        });
+        this.authService.saveRoles(this.roles);
       }
     });
   }

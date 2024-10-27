@@ -20,7 +20,7 @@ export class BookingService {
     return this.http.post(`${this.bookingUrl}/reserve`, { ticketIds }, { headers: { Authorization: 'Bearer ' + this.authService.getToken() } });
   }
 
-  confirmReservation(bookingId: number, paymentIntentId: string): Observable<any> {
+  confirmReservation(bookingId: number, paymentIntentId: string | null): Observable<any> {
     return this.http.post(`${this.bookingUrl}/confirm`, { id: bookingId, paymentIntentId: paymentIntentId}, { headers: { Authorization: 'Bearer ' + this.authService.getToken() } });
   }
 
