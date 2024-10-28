@@ -6,7 +6,7 @@ import {
   HttpEvent,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { Observable, throwError, BehaviorSubject, from } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
@@ -25,7 +25,12 @@ export class TokenInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
 
+    if (token && this.authService.isTokenExpired(token) && !this.isRefreshing) {
+      return this.handle401Error(req, next);
+    }
+
     let authReq = req;
+
     if (token && !this.isExcludedUrl(req.url)) {
       authReq = this.addTokenHeader(req, token);
     }

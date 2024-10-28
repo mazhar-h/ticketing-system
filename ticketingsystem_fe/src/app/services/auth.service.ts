@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { environment } from '../environments/enivornment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { environment } from '../environments/enivornment';
 export class AuthService {
   private baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private router: Router) {}
 
   loginWithGoogle(googleToken: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/auth/google`, googleToken, { withCredentials: true })
@@ -49,7 +50,17 @@ export class AuthService {
   }
 
   refreshToken(): Observable<any> {
-    return this.http.post(`${this.baseUrl}/refresh-token`, {}, { withCredentials: true });
+    return this.http.post(`${this.baseUrl}/refresh-token`, {}, { withCredentials: true }).pipe(
+      tap((response: any) => {
+        if (response && response.accessToken) {
+          this.saveAccessToken(response.accessToken);
+        }
+      }),
+      catchError(() => {
+        this.router.navigate(['/login']);
+        return of(null);
+      })
+    );;
   }
 
   processLogout(): Observable<any> {
@@ -59,6 +70,13 @@ export class AuthService {
   isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
     if (token && !this.jwtHelper.isTokenExpired(token))
+      return true;
+    else
+      return false;
+  }
+
+  isTokenExpired(token: string): boolean {
+    if (this.jwtHelper.isTokenExpired(token))
       return true;
     else
       return false;

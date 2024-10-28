@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, resolveForwardRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -103,7 +103,7 @@ export class LoginComponent implements OnInit {
 
       this.authService.login(username, password).subscribe({
         next: (response) => {
-          localStorage.setItem('token', response.accessToken);
+          this.authService.saveAccessToken(response.accessToken);
           this.router.navigate(['/dashboard']);
         },
         error: (error) => {
