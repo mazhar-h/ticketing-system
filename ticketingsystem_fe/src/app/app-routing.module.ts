@@ -41,7 +41,7 @@ const routes: Routes = [
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'confirm-email/:token', component: EmailConfirmationComponent },
   { path: 'search-results', component: SearchResultsComponent },
-  { path: 'event/:id', component: EventDetailsComponent },
+  { path: 'event/:sourceId/:id', component: EventDetailsComponent },
   { path: 'bookings', component: BookingsComponent, canActivate: [UserGuard] },
   { path: 'venue/events/create', component: CreateEventComponent, canActivate: [VenueGuard] },
   { path: 'venue/events', component: VenueEventListComponent, canActivate: [VenueGuard] },

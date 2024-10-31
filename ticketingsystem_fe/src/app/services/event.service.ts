@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/enivornment';
 import { AuthService } from './auth.service';
+import { EventSource } from '../enums/event-source.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +22,8 @@ export class EventService {
     return this.http.post(`${this.eventUrl}`, data)
   }
 
-  getEvent(id: number): Observable<any> {
-    return this.http.get(`${this.eventUrl}/${id}`);
+  getEvent(id: string, source: string = EventSource.o): Observable<any> {
+    return this.http.get(`${this.eventUrl}/${id}?&source=${source}`);
 
   }
 
@@ -36,6 +37,6 @@ export class EventService {
   }
 
   searchEvents(searchText: string): Observable<any> {
-    return this.http.get(`${this.eventUrl}?keyword=${searchText}`);
+    return this.http.get(`${this.eventUrl}/search?keyword=${searchText}`);
   }
 }

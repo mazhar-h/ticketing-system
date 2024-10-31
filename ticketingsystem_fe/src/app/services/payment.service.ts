@@ -28,6 +28,10 @@ export class PaymentService {
     return this.http.post(`${this.paymentUrl}/create-payment-intent`, { ticketIds: ticketIds }, { headers: { Authorization: 'Bearer ' + this.authService.getToken() } });
   }
 
+  createGuestPaymentIntent(ticketIds: string[], sessionToken: string): Observable<any> {
+    return this.http.post(`${this.paymentUrl}/guest/create-payment-intent`, { ticketIds: ticketIds }, { headers: { Authorization: 'Bearer ' + sessionToken } });
+  }
+
   confirmPayment(clientSecret: string, cardElement: any): Promise<PaymentIntentResult> | undefined {
     return this.stripe?.confirmCardPayment(clientSecret, {
       payment_method: {

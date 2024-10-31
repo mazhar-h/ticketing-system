@@ -57,7 +57,7 @@ export class AuthService {
         }
       }),
       catchError(() => {
-        this.router.navigate(['/login']);
+        //this.router.navigate(['/login']);
         return of(null);
       })
     );;
@@ -76,10 +76,13 @@ export class AuthService {
   }
 
   isTokenExpired(token: string): boolean {
-    if (this.jwtHelper.isTokenExpired(token))
-      return true;
-    else
-      return false;
+    try {
+      if (this.jwtHelper.isTokenExpired(token))
+        return true;
+    } catch (error) {
+      localStorage.removeItem('token');
+    }
+    return false;
   }
 
   saveRoles(roles: string[]) {

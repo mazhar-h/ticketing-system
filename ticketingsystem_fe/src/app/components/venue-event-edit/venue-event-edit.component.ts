@@ -77,7 +77,7 @@ export class VenueEventEditComponent implements OnInit {
   }
 
   loadEventDetails(): void {
-    this.eventService.getEvent(Number(this.eventId)).subscribe(
+    this.eventService.getEvent(this.eventId).subscribe(
       (data: any) => {
         this.eventForm.patchValue({
           name: data.name,

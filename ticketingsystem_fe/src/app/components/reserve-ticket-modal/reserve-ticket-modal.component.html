@@ -40,7 +40,52 @@
     </div>
 
     <ng-template #loginPrompt>
-      <p>Please <a routerLink="/login">login</a> to reserve tickets.</p>
+      <div *ngIf="!isGuestCheckout && !isLoggedIn">
+        <p>Please login or continue as a guest to reserve tickets.</p>
+        <button (click)="login()">Login</button>
+        <button (click)="continueAsGuest()">Continue as Guest</button>
+      </div>
+
+      <div *ngIf="isGuestCheckout && !isLoggedIn">
+        <form [formGroup]="guestForm" (ngSubmit)="onGuestCheckout()">
+          <h2>Time Remaining</h2>
+          <h3>{{ getFormattedTime() }}</h3>
+          <!-- Display the formatted countdown time -->
+          <h2>Reservation Details</h2>
+    
+          <p>
+            Your reservation is on hold. Please complete your purchase before the
+            time runs out.
+          </p>
+          <p>You have reserved the following tickets:</p>
+    
+          <ul>
+            <li *ngFor="let ticket of getSelectedTickets()">{{ ticket.id }} {{ ticket.name }}</li>
+          </ul>
+    
+          <p>Total: {{ totalAmount | currency }}</p>
+          <div class="form-group">
+            <div *ngIf="emailMismatch" class="error-email">Emails do not match</div>
+            <label for="email">Email</label>
+            <input type="email" id="email" class="form-input" formControlName="email" required placeholder="Enter your email" />
+          </div>
+          <div class="form-group">
+            <label for="confirmEmail">Confirm Email</label>
+            <input type="email" id="confirmEmail" class="form-input" formControlName="confirmEmail" required placeholder="Confirm your email" />
+          </div>
+          <div *ngIf="totalAmount !== 0">
+            <form id="payment-form">
+              <label for="card-number-element">Card Number</label>
+              <div id="card-number-element" class="stripe-input"></div>
+              <label for="card-expiry-element">Expiration Date</label>
+              <div id="card-expiry-element" class="stripe-input"></div>
+              <label for="card-cvc-element">Security Code</label>
+              <div id="card-cvc-element" class="stripe-input"></div>
+            </form>
+          </div>
+          <button type="submit">Pay</button>
+        </form>
+      </div>
     </ng-template>
   </div>
   <div class="custom-modal" *ngIf="!isTicketsAvailable">

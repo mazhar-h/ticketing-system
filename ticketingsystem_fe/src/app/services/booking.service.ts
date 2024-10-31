@@ -27,4 +27,20 @@ export class BookingService {
   releaseReservation(bookingId: number) {
     return this.http.post(`${this.bookingUrl}/release`, { id: bookingId }, { headers: { Authorization: 'Bearer ' + this.authService.getToken() } });
   }
+
+  startGuestCheckout(): Observable<any> {
+    return this.http.get(`${this.bookingUrl}/guest/start`);
+  }
+
+  createGuestReservation(ticketIds: number[], sessionToken: string):Observable<any> {
+    return this.http.post(`${this.bookingUrl}/guest/reserve`, { ticketIds },  { headers: { Authorization: 'Bearer ' + sessionToken } });
+  }
+
+  confirmGuestReservation(bookingId: number, paymentIntentId: string | null, guestEmail: string, sessionToken: string): Observable<any> {
+    return this.http.post(`${this.bookingUrl}/guest/confirm`, { id: bookingId, paymentIntentId, guestEmail }, { headers: { Authorization: 'Bearer ' + sessionToken } });
+  }
+
+  releaseGuestReservation(bookingId: number, sessionToken: string): Observable<any> {
+    return this.http.post(`${this.bookingUrl}/guest/release`, { id: bookingId }, { headers: { Authorization: 'Bearer ' + sessionToken } });
+  }
 }

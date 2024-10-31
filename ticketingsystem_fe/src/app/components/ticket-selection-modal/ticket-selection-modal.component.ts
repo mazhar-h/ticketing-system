@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/services/event.service';
+import { Event } from 'src/app/types/event.type';
 
 @Component({
   selector: 'app-ticket-selection-modal',
   templateUrl: './ticket-selection-modal.component.html',
-  styleUrl: './ticket-selection-modal.component.css'
+  styleUrl: './ticket-selection-modal.component.css',
 })
 export class TicketSelectionModalComponent implements OnInit {
   @Output() modalClosed: EventEmitter<void> = new EventEmitter();
@@ -14,48 +15,52 @@ export class TicketSelectionModalComponent implements OnInit {
   rawTickets: any[] = [];
   showReserveModal: boolean = false;
   @Input() showSelectionModal: boolean = false;
-  eventId!: number;
+  @Input() event: Event | null = null;
+  eventId!: string;
   totalAmount: number = 0;
 
   constructor(private eventService: EventService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.eventId = Number(this.route.snapshot.paramMap.get('id'));
-    this.fetchTickets();
+    this.eventId = this.route.snapshot.paramMap.get('id')!;
   }
 
   getSelectedTickets(): any[] {
-    const selectedTikets = this.rawTickets.filter(x => this.selectedTicketIds.includes(x.id))
+    const selectedTikets = this.rawTickets.filter((x) =>
+      this.selectedTicketIds.includes(x.id)
+    );
     return selectedTikets;
   }
 
   calculateTotalAmount(): void {
     this.totalAmount = this.ticketsByPrice.reduce((total, group) => {
-      return total + (group.price * group.selectedCount);
+      return total + group.price * group.selectedCount;
     }, 0);
 
     console.log('Total amount for selected tickets:', this.totalAmount);
   }
 
-    fetchTickets(): void {
-      this.eventService.getEvent(this.eventId).subscribe((event: any) => {
-        this.rawTickets = event?.tickets;
-        this.aggregateTicketsByPrice();
-      });
-    }
-  
+  fetchTickets(): void {
+    this.eventService.getEvent(this.eventId).subscribe((event: any) => {
+      this.rawTickets = event?.tickets;
+      this.aggregateTicketsByPrice();
+    });
+  }
+
   aggregateTicketsByPrice(): void {
-    const availableTickets = this.rawTickets.filter(ticket => ticket.status === 'AVAILABLE');
+    const availableTickets = this.rawTickets.filter(
+      (ticket) => ticket.status === 'AVAILABLE'
+    );
 
     const ticketMap: { [price: number]: any } = {};
 
-    availableTickets.forEach(ticket => {
+    availableTickets.forEach((ticket) => {
       if (!ticketMap[ticket.price]) {
         ticketMap[ticket.price] = {
           price: ticket.price,
           totalAvailable: 0,
           tickets: [],
-          selectedCount: 0
+          selectedCount: 0,
         };
       }
       ticketMap[ticket.price].totalAvailable++;
@@ -66,12 +71,19 @@ export class TicketSelectionModalComponent implements OnInit {
   }
 
   incrementTicket(price: number): void {
-    const priceGroup = this.ticketsByPrice.find(group => group.price === price);
+    const priceGroup = this.ticketsByPrice.find(
+      (group) => group.price === price
+    );
     if (priceGroup && priceGroup.selectedCount < priceGroup.totalAvailable) {
-      const randomTicket = priceGroup.tickets[Math.floor(Math.random() * priceGroup.tickets.length)];
+      const randomTicket =
+        priceGroup.tickets[
+          Math.floor(Math.random() * priceGroup.tickets.length)
+        ];
       this.selectedTicketIds.push(randomTicket.id);
 
-      priceGroup.tickets = priceGroup.tickets.filter((ticket: any) => ticket.id !== randomTicket.id);
+      priceGroup.tickets = priceGroup.tickets.filter(
+        (ticket: any) => ticket.id !== randomTicket.id
+      );
       priceGroup.selectedCount++;
 
       this.calculateTotalAmount();
@@ -80,12 +92,16 @@ export class TicketSelectionModalComponent implements OnInit {
   }
 
   decrementTicket(price: number): void {
-    const priceGroup = this.ticketsByPrice.find(group => group.price === price);
+    const priceGroup = this.ticketsByPrice.find(
+      (group) => group.price === price
+    );
     if (priceGroup && priceGroup.selectedCount > 0) {
       const removedTicketId = this.selectedTicketIds.pop();
       priceGroup.selectedCount--;
 
-      const ticketToReturn = this.rawTickets.find(ticket => ticket.id === removedTicketId);
+      const ticketToReturn = this.rawTickets.find(
+        (ticket) => ticket.id === removedTicketId
+      );
       if (ticketToReturn) {
         priceGroup.tickets.push(ticketToReturn);
       }
@@ -96,7 +112,9 @@ export class TicketSelectionModalComponent implements OnInit {
   }
 
   removeTicket(ticketId: string): void {
-    this.selectedTicketIds = this.selectedTicketIds.filter(id => id !== ticketId);
+    this.selectedTicketIds = this.selectedTicketIds.filter(
+      (id) => id !== ticketId
+    );
     console.log('Updated selected ticket IDs:', this.selectedTicketIds);
   }
 
@@ -111,17 +129,17 @@ export class TicketSelectionModalComponent implements OnInit {
   }
 
   async closeReserveModal(): Promise<void> {
-    await new Promise(r => setTimeout(r, 100));
-    this.selectedTicketIds = []
+    await new Promise((r) => setTimeout(r, 100));
+    this.selectedTicketIds = [];
     this.fetchTickets();
     this.showReserveModal = false;
     this.showSelectionModal = true;
   }
 
   closeReserveModalAfterBooking() {
-    this.selectedTicketIds = []
+    this.selectedTicketIds = [];
     this.showReserveModal = false;
-    this.showSelectionModal = false; 
+    this.showSelectionModal = false;
     this.close();
   }
 }

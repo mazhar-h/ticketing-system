@@ -62,9 +62,9 @@ export class TokenInterceptor implements HttpInterceptor {
       return this.authService.refreshToken().pipe(
         switchMap((token: any) => {
           this.isRefreshing = false;
-          this.authService.saveAccessToken(token.accessToken);
-          this.refreshTokenSubject.next(token.accessToken);
-          return next.handle(this.addTokenHeader(request, token.accessToken));
+          this.authService.saveAccessToken(token?.accessToken);
+          this.refreshTokenSubject.next(token?.accessToken);
+          return next.handle(this.addTokenHeader(request, token?.accessToken));
         }),
         catchError((err) => {
           this.isRefreshing = false;
@@ -93,7 +93,11 @@ export class TokenInterceptor implements HttpInterceptor {
       url.includes('/logout') ||
       url.includes('/weather') ||
       url.includes('/auth/google') ||
-      url.includes('/confirm-email')
+      url.includes('/confirm-email') ||
+      url.includes('/bookings/guest/start') ||
+      url.includes('/bookings/guest/reserve') ||
+      url.includes('/bookings/guest/confirm') ||
+      url.includes('/bookings/guest/release')
     );
   }
 }
