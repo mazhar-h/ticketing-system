@@ -18,12 +18,10 @@ export class VerifyEmailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Get the token from the URL
     this.token = this.route.snapshot.params['token'];
     this.verifyEmail();
   }
 
-  // Method to verify email
   verifyEmail() {
     this.userService.verifyEmail(this.token).subscribe({
       next: () => {
