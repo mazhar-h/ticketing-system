@@ -21,6 +21,10 @@
   color: #dc3545;
 }
 
+.email-match-error {
+  color: #dc3545;
+}
+
 h2 {
   text-align: center;
 }

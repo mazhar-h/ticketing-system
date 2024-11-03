@@ -1,6 +1,7 @@
 <!-- Reserve Ticket Modal -->
 <app-reserve-ticket-modal
   *ngIf="showReserveModal"
+  [venueId]="venueId"
   [ticketIds]="selectedTicketIds"
   [tickets]="rawTickets"
   [totalAmount]="totalAmount"

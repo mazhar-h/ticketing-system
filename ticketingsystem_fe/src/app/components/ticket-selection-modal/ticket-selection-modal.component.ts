@@ -14,6 +14,7 @@ export class TicketSelectionModalComponent implements OnInit {
   selectedTicketIds: string[] = [];
   rawTickets: any[] = [];
   showReserveModal: boolean = false;
+  @Input() venueId: number | null = null;
   @Input() showSelectionModal: boolean = false;
   @Input() event: Event | null = null;
   eventId!: string;
@@ -42,6 +43,7 @@ export class TicketSelectionModalComponent implements OnInit {
 
   fetchTickets(): void {
     this.eventService.getEvent(this.eventId).subscribe((event: any) => {
+      this.venueId = event.venue.id;
       this.rawTickets = event?.tickets;
       this.aggregateTicketsByPrice();
     });

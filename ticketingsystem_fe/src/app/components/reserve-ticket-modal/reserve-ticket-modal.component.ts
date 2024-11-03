@@ -11,6 +11,7 @@ import { PaymentService } from 'src/app/services/payment.service';
   styleUrls: ['./reserve-ticket-modal.component.css'],
 })
 export class ReserveTicketModalComponent implements OnInit {
+  @Input() venueId: number | null = null;
   @Input() ticketIds: string[] = [];
   @Input() tickets: any[] = [];
   @Input() totalAmount: number = 0;
@@ -75,7 +76,7 @@ export class ReserveTicketModalComponent implements OnInit {
     }
     if (this.isGuestCheckout) {
       this.paymentService
-        .createGuestPaymentIntent(this.ticketIds, this.sessionToken)
+        .createGuestPaymentIntent(this.ticketIds, this.venueId!, this.sessionToken)
         .subscribe((response: any) => {
           this.clientSecret = response.clientSecret;
           this.paymentService
@@ -107,7 +108,7 @@ export class ReserveTicketModalComponent implements OnInit {
         });
     } else {
       this.paymentService
-        .createPaymentIntent(this.ticketIds)
+        .createPaymentIntent(this.ticketIds, this.venueId!)
         .subscribe((response: any) => {
           this.clientSecret = response.clientSecret;
 

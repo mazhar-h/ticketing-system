@@ -17,9 +17,22 @@ export class VenueService {
     name: string;
     email: string;
     password: string;
-    address: string;
-    state: string;
-    zipcode: string;
+    businessType: number;
+    legalBusinessName: string;
+    ein: string;
+    businessWebsite: string;
+    representative: {
+      firstName: string;
+      lastName: string;
+      phone: string;
+      dob: string;
+      ssnLast4: string;
+      address: string;
+      city: string;
+      state: string;
+      postalCode: string;
+    };
+    acceptTerms: boolean;
   }): Observable<any> {
     return this.http.post(`${this.venueUrl}/register`, registerData, { responseType: 'text' });
   }

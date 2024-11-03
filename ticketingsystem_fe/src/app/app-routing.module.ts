@@ -24,6 +24,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 import { VenueGuard } from './guards/venue.guard';
 import { UserGuard } from './guards/user.guard';
+import { PaymentsComponent } from './components/payments/payments.component';
+import { PaymentSettingsComponent } from './components/payment-settings/payment-settings.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -48,6 +50,8 @@ const routes: Routes = [
   { path: 'venue/events/:eventId/edit', component: VenueEventEditComponent, canActivate: [VenueGuard] },
   { path: 'scanner', component: ScannerComponent, canActivate: [VenueGuard] },
   { path: 'forbidden', component: ForbiddenComponent },
+  { path: 'payments', component: PaymentsComponent, canActivate: [VenueGuard] },
+  { path: 'payment-settings', component: PaymentSettingsComponent, canActivate: [VenueGuard] },
 ];
 
 @NgModule({

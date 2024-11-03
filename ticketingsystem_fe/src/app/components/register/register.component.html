@@ -53,13 +53,22 @@
         placeholder="Enter your email"
         required
       />
+      <input
+        type="email"
+        id="retypeEmail"
+        formControlName="retypeEmail"
+        placeholder="Re-Enter your email"
+        required
+      />
+      <div *ngIf="emailMatchError" class="email-match-error">
+        Your emails are not matching.
+      </div>
     </div>
 
     <div class="form-group">
       <label for="password">Password <span class="required">*</span></label>
       <input
         type="password"
-        class="password"
         id="password"
         formControlName="password"
         placeholder="Enter your password"
@@ -67,7 +76,6 @@
       />
       <input
         type="password"
-        class="password"
         id="retypePassword"
         formControlName="retypePassword"
         placeholder="Re-type your password"
@@ -78,39 +86,191 @@
       </div>
     </div>
 
-    <!-- Venue Only Fields -->
+    <!-- Venue-Only Fields -->
     <div *ngIf="registrationType === 'Venue'">
-      <div class="form-group">
-        <label for="address">Address</label>
-        <input
-          type="text"
-          id="address"
-          formControlName="address"
-          placeholder="Enter your address"
-        />
+      <label for="businessType"
+        >Business Type <span class="required">*</span></label
+      >
+      <select id="businessType" formControlName="businessType">
+        <option value="individual">Individual</option>
+        <option value="company">Company</option>
+      </select>
+
+      <!-- Company-Specific Fields -->
+      <div *ngIf="isCompany">
+        <div class="form-group">
+          <label for="businessName"
+            >Legal Business Name <span class="required">*</span></label
+          >
+          <input
+            type="text"
+            id="businessName"
+            formControlName="businessName"
+            placeholder="Enter the legal business name"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="ein"
+            >Employee Identification Number (EIN)
+            <span class="required">*</span></label
+          >
+          <input
+            type="text"
+            id="ein"
+            formControlName="ein"
+            placeholder="Enter your EIN"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="website"
+            >Business Website <span class="required">*</span></label
+          >
+          <input
+            type="url"
+            id="website"
+            formControlName="website"
+            placeholder="Enter your business website"
+            required
+          />
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="state">State</label>
-        <input
-          type="text"
-          id="state"
-          formControlName="state"
-          placeholder="Enter your state"
-        />
+      <!-- Individual Representative Fields -->
+      <div *ngIf="isIndividual">
+        <div class="form-group">
+          <label for="firstName"
+            >First Name <span class="required">*</span></label
+          >
+          <input
+            type="text"
+            id="firstName"
+            formControlName="firstName"
+            placeholder="Enter first name"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="lastName"
+            >Last Name <span class="required">*</span></label
+          >
+          <input
+            type="text"
+            id="lastName"
+            formControlName="lastName"
+            placeholder="Enter last name"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="phone"
+            >Phone Number <span class="required">*</span></label
+          >
+          <input
+            type="tel"
+            id="phone"
+            formControlName="phone"
+            placeholder="Enter phone number"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="dob">Date of Birth <span class="required">*</span></label>
+          <input type="date" id="dob" formControlName="dob" required />
+        </div>
+
+        <div class="form-group">
+          <label for="ssnLast4"
+            >Last 4 digits of your SSN <span class="required">*</span></label
+          >
+          <input
+            type="url"
+            id="ssnLast4"
+            formControlName="ssnLast4"
+            placeholder="Enter the last 4 digits of your SSN"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="address">Address <span class="required">*</span></label>
+          <input
+            type="text"
+            id="address"
+            formControlName="address"
+            placeholder="Enter address"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="city">City <span class="required">*</span></label>
+          <input
+            type="text"
+            id="city"
+            formControlName="city"
+            placeholder="Enter city"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="state">State <span class="required">*</span></label>
+          <input
+            type="text"
+            id="state"
+            formControlName="state"
+            placeholder="Enter state"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="postalCode"
+            >Postal Code <span class="required">*</span></label
+          >
+          <input
+            type="text"
+            id="postalCode"
+            formControlName="postalCode"
+            placeholder="Enter postal code"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="website"
+            >Business Website <span class="required">*</span></label
+          >
+          <input
+            type="url"
+            id="website"
+            formControlName="website"
+            placeholder="Enter your business website"
+            required
+          />
+        </div>
       </div>
 
+      <!-- Terms of Service Agreement -->
       <div class="form-group">
-        <label for="zipCode">Zip Code</label>
-        <input
-          type="text"
-          id="zipCode"
-          formControlName="zipCode"
-          placeholder="Enter your zip code"
-        />
+        <label>
+          <input type="checkbox" formControlName="acceptTerms" required />
+          I accept the
+          <a href="https://stripe.com/connect-account/legal" target="_blank"
+            >Stripe Connected Account Agreement</a
+          >
+          and Terms of Service.
+        </label>
       </div>
     </div>
 
-    <button type="submit">Register</button>
+    <button type="submit" [disabled]="!registerForm.valid">Register</button>
   </form>
 </div>

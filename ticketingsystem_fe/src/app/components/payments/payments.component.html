@@ -1,0 +1,31 @@
+<div class="payments">
+  <h2>Payments</h2>
+  <button (click)="navigateToPaymentSettings()">Go to Payment Settings</button>
+
+    <!-- Display Venue Balance -->
+    <div *ngIf="balance">
+      <h3>Account Balance</h3>
+      <p><strong>Available:</strong> ${{ balance.available | number: '1.2-2' }}</p>
+      <p><strong>Pending:</strong> ${{ balance.pending | number: '1.2-2' }}</p>
+    </div>
+  
+    <!-- Set Payout Amount -->
+    <div class="payout-section" *ngIf="balance && isManual">
+      <h3>Request Payout</h3>
+      <form (ngSubmit)="requestPayout()">
+        <label for="payoutAmount">Payout Amount ($):</label>
+        <input
+          type="number"
+          id="payoutAmount"
+          [(ngModel)]="payoutAmount"
+          name="payoutAmount"
+          min="1"
+          [max]="balance.available"
+          required
+        />
+        <button type="submit" [disabled]="!payoutAmount || payoutAmount <= 0 || payoutAmount > balance.available">
+          Request Payout
+        </button>
+      </form>
+    </div>
+</div>

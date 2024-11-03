@@ -24,12 +24,51 @@ export class PaymentService {
     return this.elements;
   }
 
-  createPaymentIntent(ticketIds: string[]): Observable<any> {
-    return this.http.post(`${this.paymentUrl}/create-payment-intent`, { ticketIds: ticketIds }, { headers: { Authorization: 'Bearer ' + this.authService.getToken() } });
+  getStripe() {
+    return this.stripe;
   }
 
-  createGuestPaymentIntent(ticketIds: string[], sessionToken: string): Observable<any> {
-    return this.http.post(`${this.paymentUrl}/guest/create-payment-intent`, { ticketIds: ticketIds }, { headers: { Authorization: 'Bearer ' + sessionToken } });
+  getBalance() {
+    return this.http.get<{ available: number; pending: number }>(`${this.paymentUrl}/balance`);
+  }
+  
+  getPayoutSchedule() {
+    return this.http.get(`${this.paymentUrl}/payout-schedule`);
+  }
+
+  setPayoutSchedule(interval: string, weeklyAnchor?: string | null, monthlyAnchor?: number | null) {
+    return this.http.post(`${this.paymentUrl}/payout-schedule`, {
+      interval,
+      weeklyAnchor,
+      monthlyAnchor
+    }, {responseType: 'text'});
+  }
+
+  createPayout(amount: number) {
+    return this.http.post(`${this.paymentUrl}/payout`, { amount });
+  }
+
+  getExternalAccounts() {
+    return this.http.get<any[]>(`${this.paymentUrl}/external-account/all`);
+  }
+
+  addOrUpdateExternalAccount(accountId: string, token: string, type: 'bank' | 'card') {
+    if (accountId)
+      return this.http.put(`${this.paymentUrl}/external-account/${accountId}`, { token, type });
+    else
+      return this.http.post(`${this.paymentUrl}/external-account`, {token, type});
+  }
+
+  removeExternalAccount(accountId: string) {
+    return this.http.delete(`${this.paymentUrl}/external-account/${accountId}`);
+  }
+
+  createPaymentIntent(ticketIds: string[], venueId: number): Observable<any> {
+    return this.http.post(`${this.paymentUrl}/create-payment-intent`, { ticketIds: ticketIds, venueId: venueId }, { headers: { Authorization: 'Bearer ' + this.authService.getToken() } });
+  }
+
+  createGuestPaymentIntent(ticketIds: string[], venueId: number, sessionToken: string): Observable<any> {
+    return this.http.post(`${this.paymentUrl}/guest/create-payment-intent`, { ticketIds: ticketIds, venueId: venueId }, { headers: { Authorization: 'Bearer ' + sessionToken } });
   }
 
   confirmPayment(clientSecret: string, cardElement: any): Promise<PaymentIntentResult> | undefined {

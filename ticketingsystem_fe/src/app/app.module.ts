@@ -38,6 +38,8 @@ import { CreateEventComponent } from './components/create-event/create-event.com
 import { VenueEventListComponent } from './components/venue-event-list/venue-event-list.component';
 import { VenueEventEditComponent } from './components/venue-event-edit/venue-event-edit.component';
 import { ScannerComponent } from './components/scanner/scanner.component';
+import { PaymentsComponent } from './components/payments/payments.component';
+import { PaymentSettingsComponent } from './components/payment-settings/payment-settings.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -68,7 +70,9 @@ import { ScannerComponent } from './components/scanner/scanner.component';
         CreateEventComponent,
         VenueEventListComponent,
         VenueEventEditComponent,
-        ScannerComponent
+        ScannerComponent,
+        PaymentsComponent,
+        PaymentSettingsComponent
     ],
     bootstrap: [AppComponent], 
     imports: [
