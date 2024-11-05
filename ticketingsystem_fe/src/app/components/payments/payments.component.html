@@ -1,31 +1,42 @@
-<div class="payments">
-  <h2>Payments</h2>
-  <button (click)="navigateToPaymentSettings()">Go to Payment Settings</button>
+<div class="payments-page">
+  <!-- Sidebar with Tabs -->
+  <div class="sidebar">
+    <ul>
+      <li (click)="selectTab('payments')">Payments</li>
+      <li (click)="selectTab('payout')">Payout</li>
+      <li (click)="selectTab('dashboard')">Dashboard</li>
+      <li (click)="selectTab('settings')">Settings</li>
+    </ul>
+  </div>
 
-    <!-- Display Venue Balance -->
-    <div *ngIf="balance">
-      <h3>Account Balance</h3>
-      <p><strong>Available:</strong> ${{ balance.available | number: '1.2-2' }}</p>
-      <p><strong>Pending:</strong> ${{ balance.pending | number: '1.2-2' }}</p>
+  <!-- Content Area -->
+  <div class="content">
+    <div [hidden]="selectedTab !== 'payments'">
+      <h2>Payments</h2>
+      <div [hidden]="!showPayments">
+        <div id="payments-container"></div>
+      </div>
     </div>
-  
-    <!-- Set Payout Amount -->
-    <div class="payout-section" *ngIf="balance && isManual">
-      <h3>Request Payout</h3>
-      <form (ngSubmit)="requestPayout()">
-        <label for="payoutAmount">Payout Amount ($):</label>
-        <input
-          type="number"
-          id="payoutAmount"
-          [(ngModel)]="payoutAmount"
-          name="payoutAmount"
-          min="1"
-          [max]="balance.available"
-          required
-        />
-        <button type="submit" [disabled]="!payoutAmount || payoutAmount <= 0 || payoutAmount > balance.available">
-          Request Payout
-        </button>
-      </form>
+    <div [hidden]="selectedTab !== 'payout'">
+      <h2>Payout</h2>
+      <div [hidden]="!showPayouts">
+        <div id="payout-container"></div>
+      </div>
     </div>
+    <div *ngIf="selectedTab === 'dashboard'">
+      <h2>Dashboard</h2>
+      <a href="{{ stripeExpressDashboardLink }}" target="_blank">
+        Open Stripe Express Dashboard
+      </a>
+    </div>
+    <div [hidden]="selectedTab !== 'settings'">
+      <h2>Settings</h2>
+      <div *ngIf="!isStripeOnboarded">
+        <button (click)="enableStripe()">Enable Stripe</button>
+      </div>
+      <div [hidden]="!showAccountManagement">
+        <div id="accManagement-container"></div>
+      </div>
+    </div>
+  </div>
 </div>

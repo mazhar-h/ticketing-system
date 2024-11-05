@@ -5,14 +5,15 @@
   
       <div class="booking-details">
         <p><strong>Confirmation Number:</strong> {{ bookingId }}</p>
-        <p><strong>Total Amount:</strong> ${{ totalAmount.toFixed(2) }}</p>
   
         <div class="tickets">
           <h3>Tickets:</h3>
           <ul>
             <li *ngFor="let ticket of tickets">
-              1 x {{ ticket.name }} - Price: ${{ ticket.price }}
+              1 x {{ ticket.name }} <span class="ticket-price">{{ ticket.price | currency }}</span>
             </li>
+            <li>Platform Fee<span class="ticket-price">{{ platformFee | currency }}</span></li>
+            <li>Total<span class="ticket-price">{{ totalAmount | currency }}</span></li>
           </ul>
         </div>
       </div>

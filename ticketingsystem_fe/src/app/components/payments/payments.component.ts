@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { lastValueFrom } from 'rxjs';
+import { StripeConnectInstance } from '@stripe/connect-js';
 import { PaymentService } from 'src/app/services/payment.service';
 
 @Component({
@@ -9,56 +8,88 @@ import { PaymentService } from 'src/app/services/payment.service';
   styleUrls: ['./payments.component.css'],
 })
 export class PaymentsComponent {
-  balance: { available: number; pending: number } | null = null;
-  payoutAmount: number | null = null;
-  isManual: boolean = false;
+  stripeExpressDashboardLink: string | null = null;
+  stripeConnectInstance: StripeConnectInstance | null = null;
+  showPayouts: boolean = false;
+  showPayments: boolean = true;
+  showAccountManagement: boolean = false;
+  selectedTab: string = 'payments';
+  isStripeOnboarded: boolean = false;
 
-  constructor(private router: Router, private paymentService: PaymentService) {}
+  constructor(private paymentService: PaymentService) {}
 
-  ngOnInit(): void {
-    this.getBalance();
-    this.paymentService.getPayoutSchedule().subscribe({
+  async ngOnInit(): Promise<void> {
+    this.stripeConnectInstance = this.paymentService.getStripeConnectInstance();
+    this.buildPayoutComponent();
+    this.buildPaymentsComponent();
+    this.buildAccountManagement();
+    this.getStripeExpressDashboard();
+    this.checkStripeOnboarding();
+  }
+
+  selectTab(tab: string) {
+    switch (tab) {
+      case 'payments':
+        this.showPayments = true;
+        break;
+      case 'payout':
+        this.showPayouts = true;
+        break;
+      case 'settings':
+        this.showAccountManagement = true;
+        break;
+    }
+    this.selectedTab = tab;
+  }
+
+  enableStripe() {
+    this.paymentService.getStripeOnboardingLink().subscribe({
       next: (response: any) => {
-        this.isManual = response.interval === 'manual' ? true : false;
-      }
+        let onboardingUrl = response.url;
+        window.location.replace(onboardingUrl);
+      },
     });
   }
 
-  async getBalance() {
-    try {
-      const response = await lastValueFrom(this.paymentService.getBalance());
-      this.balance = {
-        available: response!.available,
-        pending: response!.pending,
-      };
-    } catch (error) {
-      console.error('Error fetching balance:', error);
-    }
+  checkStripeOnboarding() {
+    this.paymentService.getStripeOnboardingStatus().subscribe({
+      next: (response: any) => {
+        this.isStripeOnboarded = response.onboarded;
+      },
+      error: () => {
+        this.isStripeOnboarded = false;
+      },
+    });
   }
 
-  async requestPayout() {
-    if (
-      this.payoutAmount &&
-      this.balance &&
-      this.payoutAmount <= this.balance.available
-    ) {
-      try {
-        await lastValueFrom(
-          this.paymentService.createPayout(this.payoutAmount)
-        );
-        alert('Payout request submitted successfully.');
-        this.payoutAmount = null;
-        this.getBalance();
-      } catch (error) {
-        console.error('Error requesting payout:', error);
-        alert('Failed to request payout. Please try again.');
-      }
-    } else {
-      alert('Invalid payout amount.');
-    }
+  getStripeExpressDashboard() {
+    this.paymentService.getStripeExpressDashboardLink().subscribe({
+      next: (response: any) => {
+        this.stripeExpressDashboardLink = response.url;
+      },
+    });
   }
 
-  navigateToPaymentSettings() {
-    this.router.navigate(['/payment-settings']);
+  buildPayoutComponent() {
+    const payoutComponent = this.stripeConnectInstance?.create('payouts');
+    const container = document.getElementById('payout-container');
+    container?.appendChild(payoutComponent as Node);
+  }
+
+  buildPaymentsComponent() {
+    const paymentComponent = this.stripeConnectInstance?.create('payments');
+    const container = document.getElementById('payments-container');
+    container?.appendChild(paymentComponent as Node);
+  }
+
+  buildAccountManagement() {
+    const accountManagement =
+      this.stripeConnectInstance?.create('account-management');
+    accountManagement?.setCollectionOptions({
+      fields: 'eventually_due',
+      futureRequirements: 'include',
+    });
+    const container = document.getElementById('accManagement-container');
+    container?.appendChild(accountManagement as Node);
   }
 }

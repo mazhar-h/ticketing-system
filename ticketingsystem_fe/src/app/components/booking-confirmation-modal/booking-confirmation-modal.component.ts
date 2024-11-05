@@ -9,6 +9,7 @@ export class BookingConfirmationModalComponent {
   @Input() bookingId!: number | undefined;
   @Input() tickets!: any[];
   @Input() totalAmount!: number;
+  @Input() platformFee!: number;
   
   @Output() modalClosed = new EventEmitter<void>();
 

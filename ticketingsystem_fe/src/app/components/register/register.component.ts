@@ -34,20 +34,6 @@ export class RegisterComponent {
       retypeEmail: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       retypePassword: ['', Validators.required],
-      businessType: [''],
-      businessName: [''],
-      ein: [''],
-      website: [''],
-      firstName: [''],
-      lastName: [''],
-      phone: [''],
-      dob: [''],
-      address: [''],
-      city: [''],
-      state: [''],
-      postalCode: [''],
-      ssnLast4: [''],
-      acceptTerms: [false, Validators.requiredTrue],
     });
   }
 
@@ -58,12 +44,6 @@ export class RegisterComponent {
         this.registrationType = value;
         this.checkRegistrationType();
       });
-
-    this.registerForm.get('businessType')?.valueChanges.subscribe((value) => {
-      this.isCompany = value === 'company';
-      this.isIndividual = value === 'individual';
-      this.toggleRepresentativeFields();
-    });
 
     this.registerForm.valueChanges.subscribe(() => {
       this.checkPasswordMatch();
@@ -81,77 +61,8 @@ export class RegisterComponent {
       this.registerForm.get('displayName')?.clearValidators();
     }
 
-    if (this.registrationType === 'Venue') {
-      this.registerForm.get('businessType')?.setValidators(Validators.required);
-    } else {
-      this.clearVenueFields();
-    }
-
     this.registerForm.get('displayName')?.updateValueAndValidity();
     this.registerForm.get('businessType')?.updateValueAndValidity();
-  }
-
-  toggleCompanyFields(isCompany: boolean): void {
-    const fields = ['businessName', 'ein', 'website'];
-    fields.forEach((field) => {
-      if (isCompany) {
-        this.registerForm.get(field)?.setValidators(Validators.required);
-      } else {
-        this.registerForm.get(field)?.clearValidators();
-      }
-      this.registerForm.get(field)?.updateValueAndValidity();
-    });
-  }
-
-  toggleRepresentativeFields(): void {
-    const companyFields = ['businessName', 'ein', 'website'];
-    const individualFields = [
-      'firstName',
-      'lastName',
-      'phone',
-      'dob',
-      'address',
-      'city',
-      'state',
-      'postalCode',
-      'website',
-      'ssnLast4',
-    ];
-    companyFields.forEach((field) => {
-      this.registerForm
-        .get(field)
-        ?.setValidators(this.isCompany ? Validators.required : null);
-      this.registerForm.get(field)?.updateValueAndValidity();
-    });
-    individualFields.forEach((field) => {
-      this.registerForm
-        .get(field)
-        ?.setValidators(this.isIndividual ? Validators.required : null);
-      this.registerForm.get(field)?.updateValueAndValidity();
-    });
-  }
-
-  clearVenueFields(): void {
-    const venueFields = [
-      'businessType',
-      'businessName',
-      'ein',
-      'website',
-      'firstName',
-      'lastName',
-      'phone',
-      'dob',
-      'address',
-      'city',
-      'state',
-      'postalCode',
-      'ssnLast4',
-    ];
-    venueFields.forEach((field) => {
-      this.registerForm.get(field)?.clearValidators();
-      this.registerForm.get(field)?.setValue('');
-      this.registerForm.get(field)?.updateValueAndValidity();
-    });
   }
 
   checkPasswordMatch(): void {
@@ -222,25 +133,6 @@ export class RegisterComponent {
     let name = this.registerForm.value.displayName;
     let email = this.registerForm.value.email;
     let password = this.registerForm.value.password;
-    let businessType =
-      this.registerForm.value.businessType === 'individual'
-        ? BusinessType.INDIVIDUAL
-        : BusinessType.COMPANY;
-    let legalBusinessName = this.registerForm.value.businessName;
-    let ein = this.registerForm.value.ein;
-    let businessWebsite = this.registerForm.value.website;
-    let representative = {
-      firstName: this.registerForm.value.firstName,
-      lastName: this.registerForm.value.lastName,
-      phone: this.registerForm.value.phone,
-      dob: this.registerForm.value.dob,
-      ssnLast4: this.registerForm.value.ssnLast4,
-      address: this.registerForm.value.address,
-      city: this.registerForm.value.city,
-      state: this.registerForm.value.state,
-      postalCode: this.registerForm.value.postalCode,
-    };
-    let acceptTerms = this.registerForm.value.acceptTerms;
     switch (this.registrationType) {
       case 'User':
         this.userService.register({ username, email, password }).subscribe({
@@ -271,12 +163,6 @@ export class RegisterComponent {
             username,
             email,
             password,
-            businessType,
-            legalBusinessName,
-            ein,
-            businessWebsite,
-            representative,
-            acceptTerms,
           })
           .subscribe({
             next: (response: any) => {

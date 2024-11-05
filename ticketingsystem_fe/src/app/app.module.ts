@@ -39,7 +39,7 @@ import { VenueEventListComponent } from './components/venue-event-list/venue-eve
 import { VenueEventEditComponent } from './components/venue-event-edit/venue-event-edit.component';
 import { ScannerComponent } from './components/scanner/scanner.component';
 import { PaymentsComponent } from './components/payments/payments.component';
-import { PaymentSettingsComponent } from './components/payment-settings/payment-settings.component';
+import { StripeReauthComponent } from './components/stripe-reauth/stripe-reauth.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -72,7 +72,7 @@ import { PaymentSettingsComponent } from './components/payment-settings/payment-
         VenueEventEditComponent,
         ScannerComponent,
         PaymentsComponent,
-        PaymentSettingsComponent
+        StripeReauthComponent
     ],
     bootstrap: [AppComponent], 
     imports: [

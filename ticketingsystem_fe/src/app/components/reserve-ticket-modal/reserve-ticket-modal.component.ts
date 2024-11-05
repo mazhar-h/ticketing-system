@@ -1,6 +1,14 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
+import { StripeElement, StripeElements } from '@stripe/stripe-js';
+import { lastValueFrom } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { BookingService } from 'src/app/services/booking.service';
 import { PaymentService } from 'src/app/services/payment.service';
@@ -17,6 +25,8 @@ export class ReserveTicketModalComponent implements OnInit {
   @Input() totalAmount: number = 0;
   @Output() closeModal = new EventEmitter<void>();
   @Output() closeModalAfterBooking = new EventEmitter<void>();
+  platformFee: number = 0;
+  calculatedTotal: number = 0;
   guestForm!: FormGroup;
   bookingId!: number;
   isLoggedIn = false;
@@ -32,6 +42,8 @@ export class ReserveTicketModalComponent implements OnInit {
   clientSecret!: string;
   showConfirmation = false;
   showReserveModal = true;
+  paymentIntentId: string | null = null;
+  elements: StripeElements | undefined = undefined;
 
   constructor(
     private bookingService: BookingService,
@@ -40,32 +52,71 @@ export class ReserveTicketModalComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router
   ) {
-    this.guestForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      confirmEmail: ['', [Validators.required, Validators.email]],
-    }, { validators: this.emailsMatchValidator });
+    this.guestForm = this.fb.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+        confirmEmail: ['', [Validators.required, Validators.email]],
+      },
+      { validators: this.emailsMatchValidator }
+    );
   }
 
   async ngOnInit(): Promise<void> {
     this.checkLoginStatus();
-    if (this.totalAmount !== 0) {
-      await this.paymentService.initializeStripe();
-      if (this.isLoggedIn && this.isTicketsAvailable) this.setupCardElements();
+    if (!this.isLoggedIn) {
+      await this.startGuestSession();
+      this.paymentService
+        .getStripeGuestTotalAndFee(this.ticketIds, this.sessionToken)
+        .subscribe({
+          next: (response: any) => {
+            this.calculatedTotal = response.total;
+            this.platformFee = response.platformFee;
+          },
+        });
+        this.paymentService
+        .createGuestPaymentIntent(
+          this.ticketIds,
+          this.venueId!,
+          this.sessionToken
+        )
+        .subscribe((response: any) => {
+          this.clientSecret = response.clientSecret;
+          this.paymentIntentId = response.paymentIntentId;
+        });
+    } else {
+      this.paymentService.getStripeTotalAndFee(this.ticketIds).subscribe({
+        next: (response: any) => {
+          this.calculatedTotal = response.total;
+          this.platformFee = response.platformFee;
+        },
+      });
+      this.paymentService
+      .createPaymentIntent(this.ticketIds, this.venueId!)
+      .subscribe(async (response: any) => {
+        this.clientSecret = response.clientSecret;
+        this.paymentIntentId = response.paymentIntentId;
+        if (this.totalAmount !== 0) {
+          await this.paymentService.initializeStripe();
+          if (this.isLoggedIn && this.isTicketsAvailable) this.setupCardElements();
+        }
+      });
     }
     this.createReservation();
   }
 
   setupCardElements() {
-    const elements = this.paymentService.getElements();
-
-    this.cardNumberElement = elements?.create('cardNumber');
-    this.cardNumberElement?.mount('#card-number-element');
-
-    this.cardExpiryElement = elements?.create('cardExpiry');
-    this.cardExpiryElement?.mount('#card-expiry-element');
-
-    this.cardCvcElement = elements?.create('cardCvc');
-    this.cardCvcElement?.mount('#card-cvc-element');
+    const options = {
+      clientSecret: this.clientSecret,
+      // Fully customizable with appearance API.
+      appearance: {/*...*/},
+    };
+    
+    // Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in a previous step
+    this.elements = this.paymentService.getStripe()?.elements(options);
+    
+    // Create and mount the Payment Element
+    const paymentElement = this.elements?.create('payment');
+    paymentElement?.mount('#payment-element');
   }
 
   pay() {
@@ -76,69 +127,58 @@ export class ReserveTicketModalComponent implements OnInit {
     }
     if (this.isGuestCheckout) {
       this.paymentService
-        .createGuestPaymentIntent(this.ticketIds, this.venueId!, this.sessionToken)
-        .subscribe((response: any) => {
-          this.clientSecret = response.clientSecret;
-          this.paymentService
-            .confirmPayment(this.clientSecret, this.cardNumberElement)
-            ?.then((result: any) => {
-              if (result.error) {
-                switch (result.error.code) {
-                  case 'expired_card':
-                    console.log('your card is expired');
-                    break;
-                  case 'incorrect_cvc':
-                    console.log('incorrect cvc');
-                    break;
-                  case 'processing_error':
-                    console.log('there was an error processing your card');
-                    break;
-                  case 'incorrect_number':
-                    console.log('your card number is incorrect');
-                    break;
-                  default:
-                    console.log('your card was declined');
-                    break;
-                }
-              } else {
-                this.confirmGuestPurchase(response.paymentIntentId);
-                console.log('Payment successful! ', result);
-              }
-            });
-        });
+      .confirmPayment(this.elements)
+      ?.then((result: any) => {
+        if (result.error) {
+          switch (result.error.code) {
+            case 'expired_card':
+              console.log('your card is expired');
+              break;
+            case 'incorrect_cvc':
+              console.log('incorrect cvc');
+              break;
+            case 'processing_error':
+              console.log('there was an error processing your card');
+              break;
+            case 'incorrect_number':
+              console.log('your card number is incorrect');
+              break;
+            default:
+              console.log('your card was declined');
+              break;
+          }
+        } else {
+          this.confirmGuestPurchase(this.paymentIntentId);
+          console.log('Payment successful! ', result);
+        }
+      });
     } else {
       this.paymentService
-        .createPaymentIntent(this.ticketIds, this.venueId!)
-        .subscribe((response: any) => {
-          this.clientSecret = response.clientSecret;
-
-          this.paymentService
-            .confirmPayment(this.clientSecret, this.cardNumberElement)
-            ?.then((result: any) => {
-              if (result.error) {
-                switch (result.error.code) {
-                  case 'expired_card':
-                    console.log('your card is expired');
-                    break;
-                  case 'incorrect_cvc':
-                    console.log('incorrect cvc');
-                    break;
-                  case 'processing_error':
-                    console.log('there was an error processing your card');
-                    break;
-                  case 'incorrect_number':
-                    console.log('your card number is incorrect');
-                    break;
-                  default:
-                    console.log('your card was declined');
-                    break;
-                }
-              } else {
-                this.confirmPurchase(response.paymentIntentId);
-                console.log('Payment successful! ', result);
-              }
-            });
-        });
+      .confirmPayment(this.elements)
+      ?.then((result: any) => {
+        if (result.error) {
+          switch (result.error.code) {
+            case 'expired_card':
+              console.log('your card is expired');
+              break;
+            case 'incorrect_cvc':
+              console.log('incorrect cvc');
+              break;
+            case 'processing_error':
+              console.log('there was an error processing your card');
+              break;
+            case 'incorrect_number':
+              console.log('your card number is incorrect');
+              break;
+            default:
+              console.log('your card was declined');
+              break;
+          }
+        } else {
+          this.confirmPurchase(this.paymentIntentId);
+          console.log('Payment successful! ', result);
+        }
+      });
     }
   }
 
@@ -147,6 +187,7 @@ export class ReserveTicketModalComponent implements OnInit {
   }
 
   createReservation(): void {
+    console.log("wtf")
     if (this.isLoggedIn) {
       this.startTimer();
       const numberArray = [];
@@ -203,7 +244,9 @@ export class ReserveTicketModalComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  private emailsMatchValidator(control: AbstractControl): ValidationErrors | null {
+  private emailsMatchValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
     const email = control.get('email')?.value;
     const confirmEmail = control.get('confirmEmail')?.value;
     if (email && confirmEmail && email !== confirmEmail) {
@@ -213,27 +256,21 @@ export class ReserveTicketModalComponent implements OnInit {
   }
 
   get emailMismatch(): boolean | undefined {
-    return this.guestForm.hasError('emailsMismatch') && this.guestForm.get('confirmEmail')?.touched;
+    return (
+      this.guestForm.hasError('emailsMismatch') &&
+      this.guestForm.get('confirmEmail')?.touched
+    );
   }
 
-  async continueAsGuest() {
-    this.isGuestCheckout = true;
-
-    let token = localStorage.getItem('guestSessionToken');
-
+  async startGuestSession() {
     try {
+      let token = localStorage.getItem('guestSessionToken');
       if (!token || this.authService.isTokenExpired(token)) {
-        this.bookingService.startGuestCheckout().subscribe({
-          next: (response: any) => {
-            this.sessionToken = response.guestCheckoutToken;
-            localStorage.setItem('guestSessionToken', this.sessionToken);
-          },
-          error: (error: any) => {
-            this.isGuestCheckout = false;
-            this.isTicketsAvailable = false;
-            console.error('Error starting guest session:', error);
-          },
-        });
+        const response = await lastValueFrom(
+          this.bookingService.startGuestCheckout()
+        );
+        this.sessionToken = response.guestCheckoutToken;
+        localStorage.setItem('guestSessionToken', this.sessionToken);
       } else {
         this.sessionToken = token;
       }
@@ -241,12 +278,13 @@ export class ReserveTicketModalComponent implements OnInit {
       this.isGuestCheckout = false;
       this.isTicketsAvailable = false;
     }
+  }
+
+  async continueAsGuest() {
+    this.isGuestCheckout = true;
 
     if (this.totalAmount !== 0) {
       await this.paymentService.initializeStripe();
-      const elements = this.paymentService.getElements();
-      await new Promise((r) => setTimeout(r, 100));
-
       try {
         this.setupCardElements();
       } catch (error) {
@@ -308,6 +346,7 @@ export class ReserveTicketModalComponent implements OnInit {
           this.openBookingConfirmationModal();
         },
         error: (error: any) => {
+          console.log(error)
           this.isTicketsAvailable = false;
           console.error('Error confirming purchase:', error);
         },

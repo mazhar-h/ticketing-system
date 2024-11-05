@@ -25,7 +25,7 @@ import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 import { VenueGuard } from './guards/venue.guard';
 import { UserGuard } from './guards/user.guard';
 import { PaymentsComponent } from './components/payments/payments.component';
-import { PaymentSettingsComponent } from './components/payment-settings/payment-settings.component';
+import { StripeReauthComponent } from './components/stripe-reauth/stripe-reauth.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -51,7 +51,7 @@ const routes: Routes = [
   { path: 'scanner', component: ScannerComponent, canActivate: [VenueGuard] },
   { path: 'forbidden', component: ForbiddenComponent },
   { path: 'payments', component: PaymentsComponent, canActivate: [VenueGuard] },
-  { path: 'payment-settings', component: PaymentSettingsComponent, canActivate: [VenueGuard] },
+  { path: 'stripe-reauth', component: StripeReauthComponent, canActivate: [VenueGuard] },
 ];
 
 @NgModule({

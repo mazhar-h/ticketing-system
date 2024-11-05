@@ -2,7 +2,8 @@
   *ngIf="showConfirmation"
   [bookingId]="bookingId"
   [tickets]="tickets"
-  [totalAmount]="totalAmount"
+  [totalAmount]="calculatedTotal"
+  [platformFee]="platformFee"
   (modalClosed)="closeReserveModalAfterBooking()">
 </app-booking-confirmation-modal>
 
@@ -22,21 +23,22 @@
       <p>You have reserved the following tickets:</p>
 
       <ul>
-        <li *ngFor="let ticket of getSelectedTickets()">{{ ticket.id }} {{ ticket.name }}</li>
+        <li *ngFor="let ticket of getSelectedTickets()">1 x {{ ticket.name }} <span class="ticket-price">{{ ticket.price | currency }}</span></li>
+        <li>Platform Fee<span class="ticket-price">{{ platformFee | currency }}</span></li>
+        <li>Total<span class="ticket-price">{{ calculatedTotal | currency }}</span></li>
       </ul>
 
-      <p>Total: {{ totalAmount | currency }}</p>
-      <div *ngIf="totalAmount !== 0">
+      <div [hidden]="totalAmount === 0">
         <form id="payment-form">
-          <label for="card-number-element">Card Number</label>
-          <div id="card-number-element" class="stripe-input"></div>
-          <label for="card-expiry-element">Expiration Date</label>
-          <div id="card-expiry-element" class="stripe-input"></div>
-          <label for="card-cvc-element">Security Code</label>
-          <div id="card-cvc-element" class="stripe-input"></div>
+          <div id="payment-element">
+            <!-- Elements will create form elements here -->
+          </div>
+          <button id="submit" (click)="pay()">Submit</button>
+          <div id="error-message">
+            <!-- Display error message to your customers here -->
+          </div>
         </form>
       </div>
-      <button type="button" (click)="pay()">Pay</button>
     </div>
 
     <ng-template #loginPrompt>
@@ -46,8 +48,8 @@
         <button (click)="continueAsGuest()">Continue as Guest</button>
       </div>
 
-      <div *ngIf="isGuestCheckout && !isLoggedIn">
-        <form [formGroup]="guestForm" (ngSubmit)="onGuestCheckout()">
+      <div [hidden]="!isGuestCheckout || isLoggedIn">
+        <form [formGroup]="guestForm">
           <h2>Time Remaining</h2>
           <h3>{{ getFormattedTime() }}</h3>
           <!-- Display the formatted countdown time -->
@@ -60,10 +62,10 @@
           <p>You have reserved the following tickets:</p>
     
           <ul>
-            <li *ngFor="let ticket of getSelectedTickets()">{{ ticket.id }} {{ ticket.name }}</li>
+            <li *ngFor="let ticket of getSelectedTickets()">{{ ticket.id }} {{ ticket.name }} - {{ ticket.price | currency }}</li>
           </ul>
-    
-          <p>Total: {{ totalAmount | currency }}</p>
+          <p>Platform Fee: {{ platformFee | currency }}</p>
+          <p>Total: {{ calculatedTotal | currency }}</p>
           <div class="form-group">
             <div *ngIf="emailMismatch" class="error-email">Emails do not match</div>
             <label for="email">Email</label>
@@ -73,17 +75,17 @@
             <label for="confirmEmail">Confirm Email</label>
             <input type="email" id="confirmEmail" class="form-input" formControlName="confirmEmail" required placeholder="Confirm your email" />
           </div>
-          <div *ngIf="totalAmount !== 0">
+          <div [hidden]="totalAmount === 0">
             <form id="payment-form">
-              <label for="card-number-element">Card Number</label>
-              <div id="card-number-element" class="stripe-input"></div>
-              <label for="card-expiry-element">Expiration Date</label>
-              <div id="card-expiry-element" class="stripe-input"></div>
-              <label for="card-cvc-element">Security Code</label>
-              <div id="card-cvc-element" class="stripe-input"></div>
+              <div id="payment-element">
+                <!-- Elements will create form elements here -->
+              </div>
+              <button id="submit" (click)="onGuestCheckout()">Submit</button>
+              <div id="error-message">
+                <!-- Display error message to your customers here -->
+              </div>
             </form>
           </div>
-          <button type="submit">Pay</button>
         </form>
       </div>
     </ng-template>

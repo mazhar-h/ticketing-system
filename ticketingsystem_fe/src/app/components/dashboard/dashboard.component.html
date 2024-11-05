@@ -5,7 +5,9 @@
 
   <button (click)="logout()" class="btn btn-danger">Logout</button>
   <button routerLink="/settings" class="btn btn-danger">Settings</button>
-  <div *ngIf="!roles.includes('ROLE_VENUE') && !roles.includes('ROLE_PERFORMER')">
+  <div
+    *ngIf="!roles.includes('ROLE_VENUE') && !roles.includes('ROLE_PERFORMER')"
+  >
     <button routerLink="/bookings" class="btn btn-danger">Bookings</button>
   </div>
   <div *ngIf="roles.includes('ROLE_VENUE')">
@@ -17,6 +19,10 @@
     </button>
     <button routerLink="/scanner" class="btn btn-danger">Scanner</button>
     <button routerLink="/payments" class="btn btn-danger">Payments</button>
+  </div>
+
+  <div [hidden]="!roles.includes('ROLE_VENUE')">
+    <div id="notification-container"></div>
   </div>
 
   <div class="weather-dashboard">
@@ -34,8 +40,13 @@
   </div>
 
   <div class="search-container">
-    <input type="text" placeholder="Search for events..." [(ngModel)]="searchText" (ngModelChange)="onSearchChange()"
-      class="search-input" />
+    <input
+      type="text"
+      placeholder="Search for events..."
+      [(ngModel)]="searchText"
+      (ngModelChange)="onSearchChange()"
+      class="search-input"
+    />
     <button class="search-button" (click)="searchEvents()">Search</button>
   </div>
 
@@ -45,17 +56,35 @@
     <form (ngSubmit)="createUser()">
       <div class="form-group">
         <label for="username">Username:</label>
-        <input type="text" id="username" [(ngModel)]="newUser.username" name="username" required />
+        <input
+          type="text"
+          id="username"
+          [(ngModel)]="newUser.username"
+          name="username"
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" id="email" [(ngModel)]="newUser.email" name="email" required />
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="newUser.email"
+          name="email"
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="role">Role:</label>
-        <input type="text" id="role" [(ngModel)]="newUser.role" name="role" required />
+        <input
+          type="text"
+          id="role"
+          [(ngModel)]="newUser.role"
+          name="role"
+          required
+        />
       </div>
 
       <button type="submit">Create User</button>
@@ -68,23 +97,46 @@
     <form (ngSubmit)="updateUser()">
       <div class="form-group">
         <label for="currentUsername">Current Username:</label>
-        <input type="text" id="currentUsername" [(ngModel)]="updateUserModel.currentUsername" name="currentUsername"
-          required />
+        <input
+          type="text"
+          id="currentUsername"
+          [(ngModel)]="updateUserModel.currentUsername"
+          name="currentUsername"
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="newUsername">New Username:</label>
-        <input type="text" id="newUsername" [(ngModel)]="updateUserModel.newUsername" name="newUsername" required />
+        <input
+          type="text"
+          id="newUsername"
+          [(ngModel)]="updateUserModel.newUsername"
+          name="newUsername"
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="newEmail">New Email:</label>
-        <input type="email" id="newEmail" [(ngModel)]="updateUserModel.newEmail" name="newEmail" required />
+        <input
+          type="email"
+          id="newEmail"
+          [(ngModel)]="updateUserModel.newEmail"
+          name="newEmail"
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="newRole">New Role:</label>
-        <input type="text" id="newRole" [(ngModel)]="updateUserModel.newRole" name="newRole" required />
+        <input
+          type="text"
+          id="newRole"
+          [(ngModel)]="updateUserModel.newRole"
+          name="newRole"
+          required
+        />
       </div>
 
       <button type="submit">Update User</button>
@@ -98,7 +150,12 @@
       <form (ngSubmit)="onDeleteUser()">
         <div>
           <label for="username">Username:</label>
-          <input type="text" [(ngModel)]="deleteUsername" name="username" required />
+          <input
+            type="text"
+            [(ngModel)]="deleteUsername"
+            name="username"
+            required
+          />
         </div>
         <button type="submit">Delete User</button>
       </form>

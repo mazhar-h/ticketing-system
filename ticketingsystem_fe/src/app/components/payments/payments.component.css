@@ -1,18 +1,39 @@
-.payments {
-  text-align: center;
+.payments-page {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 200px;
+  background-color: #f4f4f4;
   padding: 20px;
+  border-right: 1px solid #ddd;
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  padding: 10px;
   cursor: pointer;
+  color: #333;
 }
 
-input {
-    width: 100px;
+.sidebar ul li:hover {
+  background-color: #e0e0e0;
+}
+
+/* Active tab style (optional) */
+.sidebar ul li.active {
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Content Styles */
+.content {
+  flex: 1;
+  padding: 20px;
 }

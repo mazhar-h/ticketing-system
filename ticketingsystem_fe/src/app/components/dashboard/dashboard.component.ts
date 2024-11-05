@@ -3,6 +3,8 @@ import { UserService } from '../../services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { WeatherService } from 'src/app/services/weather.service';
+import { StripeConnectInstance } from '@stripe/connect-js';
+import { PaymentService } from 'src/app/services/payment.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,8 +18,7 @@ export class DashboardComponent implements OnInit {
   deleteUsername: string = '';
   roles: string[] = [];
   searchText: string = '';
-
-
+  stripeConnectInstance: StripeConnectInstance | null = null;
   weatherData: any;
   errorMessage: string | null = null;
 
@@ -38,13 +39,29 @@ export class DashboardComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private weatherService: WeatherService,
+    private paymentService: PaymentService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.getHelloMessage();
+    this.stripeConnectInstance = this.paymentService.getStripeConnectInstance();
     this.checkUserRoles();
+    if (this.authService.getRoles()?.includes('ROLE_VENUE'))
+      this.buildNotificationsComponent();
+    this.getHelloMessage();
     this.getWeather();
+  }
+
+  buildNotificationsComponent() {
+    const notificationComponent = this.stripeConnectInstance?.create(
+      'notification-banner'
+    );
+    notificationComponent?.setCollectionOptions({
+      fields: 'eventually_due',
+      futureRequirements: 'include',
+    });
+    const container = document.getElementById('notification-container');
+    container?.appendChild(notificationComponent as Node);
   }
 
   getHelloMessage(): void {
@@ -125,12 +142,12 @@ export class DashboardComponent implements OnInit {
 
   checkUserRoles(): void {
     this.userService.getUser().subscribe({
-      next: response => { 
+      next: (response) => {
         response.roles.forEach((role: any) => {
           this.roles.push(role.name);
         });
         this.authService.saveRoles(this.roles);
-      }
+      },
     });
   }
 
@@ -141,9 +158,10 @@ export class DashboardComponent implements OnInit {
         this.errorMessage = null;
       },
       error: () => {
-        this.errorMessage = 'Could not fetch weather data. Please try again later.';
+        this.errorMessage =
+          'Could not fetch weather data. Please try again later.';
         this.weatherData = null;
-      }
+      },
     });
   }
 
@@ -168,7 +186,9 @@ export class DashboardComponent implements OnInit {
   }
 
   searchEvents() {
-    this.router.navigate(['/search-results'], { queryParams: { query: this.searchText } });
+    this.router.navigate(['/search-results'], {
+      queryParams: { query: this.searchText },
+    });
     console.log('Searching events for:', this.searchText);
   }
 }
