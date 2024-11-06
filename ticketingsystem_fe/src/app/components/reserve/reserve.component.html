@@ -1,0 +1,52 @@
+<div class="reserve-page">
+  <!-- Left Column: Venue and Event Information -->
+  <div class="left-column">
+    <div class="timer">
+      <p>Time Remaining: {{ minutes }}:{{ seconds | number: '2.0' }}</p>
+    </div>
+    <h3>Payment Information</h3>
+    <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+      <div *ngIf="!isLoggedIn">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" class="form-input" formControlName="email" required
+            placeholder="Enter your email" />
+        </div>
+        <div class="form-group">
+          <label for="confirmEmail">Confirm Email</label>
+          <input type="email" id="retypeEmail" class="form-input" formControlName="retypeEmail" required
+            placeholder="Confirm your email" />
+        </div>
+      </div>
+      <div id="payment-element"></div>
+      <button type="submit" [disabled]="!paymentForm.valid || !timerActive">Pay</button>
+    </form>
+  </div>
+
+
+  <!-- Right Column: Checkout Details -->
+  <div class="right-column">
+    <div class="right-column-top">
+      <div class="event-details">
+        <h3>Event Details</h3>
+        <p><strong>Venue:</strong> {{ venueName }}</p>
+        <p><strong>Event:</strong> {{ eventName }}</p>
+        <p><strong>Date:</strong> {{ eventTime | date:'longDate' }}</p>
+        <p><strong>Time:</strong> {{ eventTime | date:'shortTime' }}</p>
+        <p><strong>Performers:</strong> <span *ngFor="let performer of performers">{{ performer }} </span></p>
+      </div>
+    </div>
+
+    <div class="right-column-bottom">
+      <div class="checkout-summary">
+        <h3>Checkout Details</h3>
+        <p><strong>Tickets Reserved:</strong></p>
+        <ul>
+          <li *ngFor="let ticket of tickets">1 x {{ ticket.name }} - {{ ticket.price | currency }}</li>
+        </ul>
+        <p><strong>Platform Fee:</strong> ${{ platformFee }}</p>
+        <p><strong>Total:</strong> ${{ total }}</p>
+      </div>
+    </div>
+  </div>
+</div>

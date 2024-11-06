@@ -1,14 +1,3 @@
-<!-- Reserve Ticket Modal -->
-<app-reserve-ticket-modal
-  *ngIf="showReserveModal"
-  [venueId]="venueId"
-  [ticketIds]="selectedTicketIds"
-  [tickets]="rawTickets"
-  [totalAmount]="totalAmount"
-  (closeModal)="closeReserveModal()"
-  (closeModalAfterBooking)="closeReserveModalAfterBooking()"
-></app-reserve-ticket-modal>
-
 <div class="modal" *ngIf="showSelectionModal">
   <div class="modal-content">
     <span class="close" (click)="close()">&times;</span>

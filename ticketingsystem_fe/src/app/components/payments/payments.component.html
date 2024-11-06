@@ -2,10 +2,10 @@
   <!-- Sidebar with Tabs -->
   <div class="sidebar">
     <ul>
-      <li (click)="selectTab('payments')">Payments</li>
-      <li (click)="selectTab('payout')">Payout</li>
-      <li (click)="selectTab('dashboard')">Dashboard</li>
-      <li (click)="selectTab('settings')">Settings</li>
+      <li [class]="{ 'active': selectedTab === 'payments' }" (click)="selectTab('payments')">Payments</li>
+      <li [class]="{ 'active': selectedTab === 'payout' }" (click)="selectTab('payout')">Payout</li>
+      <li [class]="{ 'active': selectedTab === 'dashboard' }" (click)="selectTab('dashboard')">Dashboard</li>
+      <li [class]="{ 'active': selectedTab === 'settings' }" (click)="selectTab('settings')">Settings</li>
     </ul>
   </div>
 

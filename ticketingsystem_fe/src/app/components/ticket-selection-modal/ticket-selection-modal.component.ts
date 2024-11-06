@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from 'src/app/services/event.service';
 import { Event } from 'src/app/types/event.type';
 
@@ -20,7 +20,7 @@ export class TicketSelectionModalComponent implements OnInit {
   eventId!: string;
   totalAmount: number = 0;
 
-  constructor(private eventService: EventService, private route: ActivatedRoute) {}
+  constructor(private eventService: EventService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.eventId = this.route.snapshot.paramMap.get('id')!;
@@ -126,22 +126,18 @@ export class TicketSelectionModalComponent implements OnInit {
   }
 
   openReserveModal(): void {
-    this.showReserveModal = true;
-    this.showSelectionModal = false;
+    this.goToReserveTickets();
   }
 
-  async closeReserveModal(): Promise<void> {
-    await new Promise((r) => setTimeout(r, 100));
-    this.selectedTicketIds = [];
-    this.fetchTickets();
-    this.showReserveModal = false;
-    this.showSelectionModal = true;
-  }
-
-  closeReserveModalAfterBooking() {
-    this.selectedTicketIds = [];
-    this.showReserveModal = false;
-    this.showSelectionModal = false;
-    this.close();
+  goToReserveTickets(): void {
+    const tickets = this.rawTickets.filter((ticket: any) => this.selectedTicketIds.includes(ticket.id))
+    this.router.navigate(['/reserve'], {
+      state: {
+        data: {
+          tickets: tickets,
+          event: this.event
+        },
+      },
+    });
   }
 }

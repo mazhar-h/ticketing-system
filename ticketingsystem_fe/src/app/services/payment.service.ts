@@ -3,12 +3,7 @@ import { Injectable } from '@angular/core';
 import { lastValueFrom, Observable } from 'rxjs';
 import { environment } from '../environments/enivornment';
 import { AuthService } from './auth.service';
-import {
-  loadStripe,
-  PaymentIntentResult,
-  Stripe,
-  StripeElements,
-} from '@stripe/stripe-js';
+import { loadStripe, PaymentIntentResult, Stripe } from '@stripe/stripe-js';
 import {
   loadConnectAndInitialize,
   StripeConnectInstance,
@@ -70,20 +65,23 @@ export class PaymentService {
     return this.http.get(`${this.paymentUrl}/stripe/onboarding/status`);
   }
 
-  getStripeTotalAndFee(ticketIds: string[]) {
+  getStripeTotalAndFee(ticketIds: number[]): Observable<any> {
     return this.http.post(`${this.paymentUrl}/stripe/total-and-fee`, {
       ticketIds: ticketIds,
     });
   }
 
-  getStripeGuestTotalAndFee(ticketIds: string[], sessionToken: string) {
+  getStripeGuestTotalAndFee(
+    ticketIds: number[],
+    sessionToken: string
+  ): Observable<any> {
     return this.http.post(
       `${this.paymentUrl}/stripe/guest/total-and-fee`,
       { ticketIds },
       { headers: { Authorization: 'Bearer ' + sessionToken } }
     );
   }
-  createPaymentIntent(ticketIds: string[], venueId: number): Observable<any> {
+  createPaymentIntent(ticketIds: number[], venueId: number): Observable<any> {
     return this.http.post(
       `${this.paymentUrl}/stripe/create-payment-intent`,
       { ticketIds: ticketIds, venueId: venueId },
@@ -92,7 +90,7 @@ export class PaymentService {
   }
 
   createGuestPaymentIntent(
-    ticketIds: string[],
+    ticketIds: number[],
     venueId: number,
     sessionToken: string
   ): Observable<any> {
@@ -103,19 +101,11 @@ export class PaymentService {
     );
   }
 
-  confirmPayment(
-    elements: any
-  ): Promise<PaymentIntentResult> | undefined {
-    /*return this.stripe?.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: cardElement,
-      },
-    });*/
+  confirmPayment(elements: any): Promise<PaymentIntentResult> | undefined {
     return this.stripe?.confirmPayment({
       elements,
-      confirmParams: {
-      },
-     redirect: "if_required",
+      confirmParams: {},
+      redirect: 'if_required',
     });
   }
 }

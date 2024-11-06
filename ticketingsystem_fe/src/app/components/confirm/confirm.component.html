@@ -1,0 +1,28 @@
+<div class="confirm-page">
+    <div class="confirmation-header">
+      <h2>Booking Confirmation</h2>
+      <p>Your booking has been successfully completed!</p>
+    </div>
+  
+    <div class="booking-details">
+      <h3>Booking ID: {{ bookingId }}</h3>
+    </div>
+  
+    <div class="ticket-list">
+      <h4>Tickets</h4>
+      <ul>
+        <li *ngFor="let ticket of tickets">
+          <span class="ticket-name">1 x {{ ticket.name }}</span>
+          <span class="ticket-price">{{ ticket.price | currency }}</span>
+        </li>
+      </ul>
+    </div>
+  
+    <div class="summary">
+      <p><strong>Platform Fee:</strong> ${{ platformFee }}</p>
+      <p><strong>Total:</strong> ${{ totalAmount }}</p>
+    </div>
+  
+    <button class="home-button" (click)="goHome()">Return to Home</button>
+  </div>
+  

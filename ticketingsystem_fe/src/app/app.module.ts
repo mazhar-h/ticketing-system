@@ -29,9 +29,7 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import { SearchResultsComponent } from './components/search-results/search-results.component';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { ReserveTicketModalComponent } from './components/reserve-ticket-modal/reserve-ticket-modal.component';
 import { TicketSelectionModalComponent } from './components/ticket-selection-modal/ticket-selection-modal.component';
-import { BookingConfirmationModalComponent } from './components/booking-confirmation-modal/booking-confirmation-modal.component';
 import { BookingsComponent } from './components/bookings/bookings.component';
 import { BookingDetailsModalComponent } from './components/booking-details-modal/booking-details-modal.component';
 import { CreateEventComponent } from './components/create-event/create-event.component';
@@ -40,6 +38,8 @@ import { VenueEventEditComponent } from './components/venue-event-edit/venue-eve
 import { ScannerComponent } from './components/scanner/scanner.component';
 import { PaymentsComponent } from './components/payments/payments.component';
 import { StripeReauthComponent } from './components/stripe-reauth/stripe-reauth.component';
+import { ReserveComponent } from './components/reserve/reserve.component';
+import { ConfirmComponent } from './components/confirm/confirm.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -62,9 +62,7 @@ import { StripeReauthComponent } from './components/stripe-reauth/stripe-reauth.
         HomepageComponent,
         SearchResultsComponent,
         EventDetailsComponent,
-        ReserveTicketModalComponent,
         TicketSelectionModalComponent,
-        BookingConfirmationModalComponent,
         BookingsComponent,
         BookingDetailsModalComponent,
         CreateEventComponent,
@@ -72,7 +70,9 @@ import { StripeReauthComponent } from './components/stripe-reauth/stripe-reauth.
         VenueEventEditComponent,
         ScannerComponent,
         PaymentsComponent,
-        StripeReauthComponent
+        StripeReauthComponent,
+        ReserveComponent,
+        ConfirmComponent
     ],
     bootstrap: [AppComponent], 
     imports: [

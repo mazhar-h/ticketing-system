@@ -1,0 +1,98 @@
+.reserve-page {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+@media (min-width: 769px) {
+    .left-column {
+        flex: 1;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        padding-left: 10%;
+        padding-right: 10%;
+        padding-top: 2%;
+        margin-left: 400px;
+    }
+
+    .right-column-top,
+    .right-column-bottom {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        padding: 50px;
+        margin-right: 400px;
+    }
+
+    .right-column-bottom {
+        margin-top: 20px;
+    }
+
+    .event-details,
+    .checkout-summary {
+        margin-bottom: 20px;
+    }
+}
+
+
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+    .reserve-page {
+        flex-direction: column;
+    }
+
+    .left-column,
+    .right-column-top,
+    .right-column-bottom {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .right-column-top,
+    .right-column-bottom {
+        margin-bottom: 20px;
+    }
+
+    .timer {
+        font-size: 1.2em;
+        text-align: center;
+    }
+
+    button {
+        margin-top: 10px;
+        margin-right: 10px;
+        width: 100%;
+        height: 40px;
+        cursor: pointer;
+    }
+}
+
+.form-input {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.form-group>* {
+    display: block;
+}
+
+button {
+    margin-top: 10px;
+    margin-right: 10px;
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+}
+
+ul {
+    padding: 0;
+    list-style-type: none;
+}

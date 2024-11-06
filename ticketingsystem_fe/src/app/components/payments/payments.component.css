@@ -5,7 +5,8 @@
 
 /* Sidebar Styles */
 .sidebar {
-  width: 200px;
+  max-width: 200px;
+  min-width: 50px;
   background-color: #f4f4f4;
   padding: 20px;
   border-right: 1px solid #ddd;
@@ -29,7 +30,7 @@
 /* Active tab style (optional) */
 .sidebar ul li.active {
   font-weight: bold;
-  color: #007bff;
+  color: #333;
 }
 
 /* Content Styles */

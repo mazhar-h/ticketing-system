@@ -55,9 +55,12 @@ export class PaymentsComponent {
     this.paymentService.getStripeOnboardingStatus().subscribe({
       next: (response: any) => {
         this.isStripeOnboarded = response.onboarded;
+        if (!response.onboarded)
+          this.selectTab('settings');
       },
       error: () => {
         this.isStripeOnboarded = false;
+        this.selectTab('settings');
       },
     });
   }
