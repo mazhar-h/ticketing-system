@@ -33,7 +33,7 @@
         <p><strong>Event:</strong> {{ eventName }}</p>
         <p><strong>Date:</strong> {{ eventTime | date:'longDate' }}</p>
         <p><strong>Time:</strong> {{ eventTime | date:'shortTime' }}</p>
-        <p><strong>Performers:</strong> <span *ngFor="let performer of performers">{{ performer }} </span></p>
+        <p><strong>Performers:</strong> <span *ngFor="let performer of performers"> {{ performer }} </span></p>
       </div>
     </div>
 
