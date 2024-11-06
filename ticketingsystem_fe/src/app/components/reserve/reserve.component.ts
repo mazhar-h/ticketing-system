@@ -63,6 +63,8 @@ export class ReserveComponent implements OnInit, OnDestroy {
       this.performers = data.event.performers.map((performer: any) => {
         return performer.name;
       });
+      this.sourceId = 'o';
+      this.eventId = data.event.id;
     } catch (error: any) {
       this.isDirectAccess = true;
       router.navigate(['/']);
@@ -110,7 +112,7 @@ export class ReserveComponent implements OnInit, OnDestroy {
           tickets: this.tickets,
           bookingId: bookingId,
           platformFee: this.platformFee,
-          totalAmount: this.total
+          totalAmount: this.total,
         },
       },
     });
@@ -351,8 +353,7 @@ export class ReserveComponent implements OnInit, OnDestroy {
   }
 
   async ngOnDestroy() {
-    if (this.isDirectAccess)
-      return;
+    if (this.isDirectAccess) return;
     clearInterval(this.intervalId);
     if (this.paymentElement) this.paymentElement.destroy();
     await this.cancelGuestReservation();
