@@ -18,8 +18,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.authService.getRoles()?.includes('ROLE_VENUE'))
-      this.paymentService.initializeStripeConnect();
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const token = this.authService.getToken();

@@ -84,7 +84,7 @@ button:hover {
 
 @media (max-width: 600px) {
   .scanner-box {
-    width: 90%; /* Adjust width to fit smaller screens */
+    width: 100%; /* Adjust width to fit smaller screens */
     height: auto;
   }
   button {

@@ -44,6 +44,8 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (this.authService.getRoles()?.includes('ROLE_VENUE'))
+      this.paymentService.initializeStripeConnect();
     this.stripeConnectInstance = this.paymentService.getStripeConnectInstance();
     this.checkUserRoles();
     if (this.authService.getRoles()?.includes('ROLE_VENUE'))

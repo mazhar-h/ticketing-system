@@ -42,8 +42,11 @@ export class ReserveComponent implements OnInit, OnDestroy {
   sessionToken: string | null = null;
   paymentIntentId: string | null = null;
   clientSecret: string = '';
+  customerSessionClientSecret: string | null = null;
   guestEmail: string | null = null;
   isDirectAccess: boolean = false;
+
+  isLoading: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -84,7 +87,7 @@ export class ReserveComponent implements OnInit, OnDestroy {
         await this.setUpGuestCheckout();
         await this.setupStripe();
       } catch (error: any) {
-        if (error.status === 401) this.startGuestSession();
+        if (error.status === 401) localStorage.removeItem('guestSessionToken');
         clearInterval(this.intervalId);
         sessionStorage.removeItem('bookingId');
         alert('An Error Occurred');
@@ -123,8 +126,10 @@ export class ReserveComponent implements OnInit, OnDestroy {
   }
 
   async setupStripe() {
+    const customerSessionClientSecret = this.customerSessionClientSecret!;
     const options = {
       clientSecret: this.clientSecret,
+      customerSessionClientSecret,
       appearance: {
         /*...*/
       },
@@ -203,7 +208,7 @@ export class ReserveComponent implements OnInit, OnDestroy {
   async setUpCheckout() {
     let ticketIds: number[] = this.tickets.map((ticket: any) => ticket.id);
     this.paymentService;
-    const { paymentIntentId, clientSecret } = await lastValueFrom(
+    const { paymentIntentId, clientSecret, customerSessionClientSecret } = await lastValueFrom(
       this.paymentService.createPaymentIntent(ticketIds, this.venueId!)
     );
     const { total, platformFee } = await lastValueFrom(
@@ -218,6 +223,7 @@ export class ReserveComponent implements OnInit, OnDestroy {
     this.platformFee = platformFee;
     this.paymentIntentId = paymentIntentId;
     this.clientSecret = clientSecret;
+    this.customerSessionClientSecret = customerSessionClientSecret;
   }
 
   async cancelReservation(): Promise<void> {
@@ -346,6 +352,7 @@ export class ReserveComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.paymentForm.valid && this.timerActive) {
+      this.isLoading = true;
       this.guestEmail = this.paymentForm.value.email;
       this.pay();
       console.log('Payment submitted');

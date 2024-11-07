@@ -19,7 +19,11 @@
         </div>
       </div>
       <div id="payment-element"></div>
-      <button type="submit" [disabled]="!paymentForm.valid || !timerActive">Pay</button>
+      <button type="submit" [disabled]="!paymentForm.valid || !timerActive || isLoading">
+        <span *ngIf="!isLoading">Pay</span>
+        <span *ngIf="isLoading">
+          <div class="spinner"></div>
+        </span></button>
     </form>
   </div>
 

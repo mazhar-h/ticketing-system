@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { StripeConnectInstance } from '@stripe/connect-js';
+import { AuthService } from 'src/app/services/auth.service';
 import { PaymentService } from 'src/app/services/payment.service';
 
 @Component({
@@ -16,9 +17,14 @@ export class PaymentsComponent {
   selectedTab: string = 'payments';
   isStripeOnboarded: boolean = false;
 
-  constructor(private paymentService: PaymentService) {}
+  constructor(
+    private paymentService: PaymentService,
+    private authService: AuthService
+  ) {}
 
   async ngOnInit(): Promise<void> {
+    if (this.authService.getRoles()?.includes('ROLE_VENUE'))
+      this.paymentService.initializeStripeConnect();
     this.stripeConnectInstance = this.paymentService.getStripeConnectInstance();
     this.buildPayoutComponent();
     this.buildPaymentsComponent();
@@ -55,8 +61,7 @@ export class PaymentsComponent {
     this.paymentService.getStripeOnboardingStatus().subscribe({
       next: (response: any) => {
         this.isStripeOnboarded = response.onboarded;
-        if (!response.onboarded)
-          this.selectTab('settings');
+        if (!response.onboarded) this.selectTab('settings');
       },
       error: () => {
         this.isStripeOnboarded = false;
