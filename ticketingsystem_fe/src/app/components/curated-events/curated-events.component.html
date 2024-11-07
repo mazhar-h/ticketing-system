@@ -1,0 +1,18 @@
+<div class="curated-events">
+    <h3>Events near you</h3>
+    <div class="event-grid">
+        <a class="event-card" *ngFor="let event of events" [routerLink]="['/event/tm', event.id]">
+            <!-- Link to event details page -->
+
+            <img [src]="findGoodImage(event)" alt="{{ event.name }}" class="event-image" />
+            <p class="event-name">{{ event.name }}</p>
+            <p class="event-venue">{{ event._embedded.venues[0].name }}</p>
+            <p class="event-date">{{ event.dates.start.dateTime | date: 'longDate' }}</p>
+            <!-- Display formatted date -->
+        </a>
+    </div>
+
+    <div *ngIf="loading" class="loading-spinner">
+        <p>Loading more events...</p>
+    </div>
+</div>

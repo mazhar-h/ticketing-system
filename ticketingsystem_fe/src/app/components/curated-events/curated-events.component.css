@@ -1,0 +1,61 @@
+.event-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns */
+    gap: 16px;
+  }
+  
+  .event-card {
+    text-align: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Maintain text color */
+    transition: transform 0.2s; /* Animation for hover effect */
+  }
+  
+  .event-card:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .event-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
+  .event-name {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .event-venue {
+    color: #555;
+    font-size: 0.9em;
+  }
+  
+  .event-date {
+    color: #888;
+    font-size: 0.85em;
+  }
+  
+  /* Loading Spinner */
+  .loading-spinner {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    color: #888;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .event-grid {
+      grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+    }
+  }
+  

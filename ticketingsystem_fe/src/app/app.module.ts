@@ -40,6 +40,7 @@ import { PaymentsComponent } from './components/payments/payments.component';
 import { StripeReauthComponent } from './components/stripe-reauth/stripe-reauth.component';
 import { ReserveComponent } from './components/reserve/reserve.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
+import { CuratedEventsComponent } from './components/curated-events/curated-events.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -72,7 +73,8 @@ import { ConfirmComponent } from './components/confirm/confirm.component';
         PaymentsComponent,
         StripeReauthComponent,
         ReserveComponent,
-        ConfirmComponent
+        ConfirmComponent,
+        CuratedEventsComponent
     ],
     bootstrap: [AppComponent], 
     imports: [
