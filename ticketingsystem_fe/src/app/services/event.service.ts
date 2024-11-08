@@ -15,7 +15,7 @@ export class EventService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getCuratedEvents(page: number) {
-    return this.http.get(`${this.eventUrl}/search?keyword=&original=false&location=true&classificationId=&page=${page}&size=20&sort=date,asc&radius=10&unit=miles`)
+    return this.http.get(`${this.eventUrl}/search?keyword=&original=true&location=true&classificationId=&page=${page}&size=20&sort=date,asc&radius=30&unit=miles`)
   }
 
   getEventsByVenue() {

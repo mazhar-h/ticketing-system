@@ -8,7 +8,8 @@ export type Event = {
     performers: Performer[],
     url: string,
     type: string,
-    tickets: Ticket[]
+    tickets: Ticket[],
+    images: any[]
   };
 
   export type Venue = {

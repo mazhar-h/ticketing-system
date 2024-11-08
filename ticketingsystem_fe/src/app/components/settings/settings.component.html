@@ -1,8 +1,5 @@
 <!-- Delete Account Modal -->
-<app-delete-account-modal
-  (confirmDelete)="handleDelete()"
-  (cancelDelete)="handleCancel()"
-></app-delete-account-modal>
+<app-delete-account-modal (confirmDelete)="handleDelete()" (cancelDelete)="handleCancel()"></app-delete-account-modal>
 
 <div class="settings-container">
   <h2>Settings</h2>
@@ -13,12 +10,7 @@
     <div *ngIf="initiatedUpdateEmail">
       <label class="label-email-msg" for="email">Please check your new email to confirm your updated email.</label>
     </div>
-    <input
-      type="email"
-      id="email"
-      [(ngModel)]="email"
-      placeholder="New email"
-    />
+    <input type="email" id="email" [(ngModel)]="email" placeholder="New email" />
     <button (click)="updateEmail()">Update Email</button>
   </div>
 
@@ -35,33 +27,30 @@
   </div>
   <!-- Current Password -->
   <div class="setting-item-pass">
-    <input
-      type="password"
-      id="currentPassword"
-      [(ngModel)]="currentPassword"
-      placeholder="Current password"
-    />
+    <input type="password" id="currentPassword" [(ngModel)]="currentPassword" placeholder="Current password" />
   </div>
 
   <!-- Update Password -->
   <div class="setting-item-pass">
-    <input
-      type="password"
-      id="password"
-      [(ngModel)]="password"
-      placeholder="New password"
-    />
+    <input type="password" id="password" [(ngModel)]="password" placeholder="New password" />
   </div>
 
   <!-- Re-type Password -->
   <div class="setting-item-pass">
-    <input
-      type="password"
-      id="retypePassword"
-      [(ngModel)]="retypePassword"
-      placeholder="Re-type password"
-    />
+    <input type="password" id="retypePassword" [(ngModel)]="retypePassword" placeholder="Re-type password" />
     <button (click)="updatePassword()">Update Password</button>
+  </div>
+
+  <!-- Update Address -->
+  <div class="setting-item" *ngIf="roles?.includes('ROLE_VENUE')">
+    <label for="email">Current address: {{ currentAddress }}</label>
+    <div *ngIf="changedAddress">
+      <label class="label-address-msg">Your address was changed!</label>
+    </div>
+    <input type="address" id="address" [(ngModel)]="address" placeholder="Address" />
+    <input type="city" id="city" [(ngModel)]="city" placeholder="City" />
+    <input type="state" id="state" [(ngModel)]="state" placeholder="State" />
+    <button (click)="updateVenueAddress()">Update Address</button>
   </div>
 
   <!-- Delete Account -->

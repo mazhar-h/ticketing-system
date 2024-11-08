@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { DeleteAccountModalComponent } from '../delete-account-modal/delete-account-modal.component';
+import { VenueService } from 'src/app/services/venue.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-settings',
@@ -17,12 +19,21 @@ export class SettingsComponent implements OnInit {
   changedPassword: boolean = false;
   errorPassword: boolean = false;
   passwordMatchError: boolean = false;
+  address: string = '';
+  city: string = '';
+  state: string = '';
+  currentAddress = '';
+  changedAddress = false;
+  roles: string[] | null = null;
   
   @ViewChild(DeleteAccountModalComponent) deleteAccountModal!: DeleteAccountModalComponent;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private venueService: VenueService, private authService: AuthService) {}
   ngOnInit(): void {
     this.getEmail();
+    this.roles = this.authService.getRoles();
+    if (this.roles?.includes("ROLE_VENUE"))
+      this.getVenueAddress();
   }
 
   getEmail() {
@@ -36,10 +47,29 @@ export class SettingsComponent implements OnInit {
   updateEmail() {
     const data = { email: this.email };
     this.userService.updateUserEmail(data).subscribe({
-      next: (response) => {
+      next: () => {
         this.initiatedUpdateEmail = true;
       },
     });
+  }
+
+  getVenueAddress() {
+    this.venueService.getAddress().subscribe({
+      next: (response) => {
+        this.currentAddress = response.address;
+      },
+    });
+  }
+
+  updateVenueAddress() {
+    const data = { address: this.address, city: this.city, state: this.state };
+    this.venueService.updateAddress(data).subscribe({
+      next: () => {
+        this.getVenueAddress();
+        this.changedAddress = true;
+      }
+    });
+
   }
 
   updatePassword() {

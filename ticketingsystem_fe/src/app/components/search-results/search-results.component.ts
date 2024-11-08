@@ -79,6 +79,7 @@ export class SearchResultsComponent implements OnInit {
       url: '',
       type: EventSource.o,
       tickets: event.tickets,
+      images: []
     };
     return newEvent;
   }
@@ -99,6 +100,7 @@ export class SearchResultsComponent implements OnInit {
       url: event.url,
       type: EventSource.tm,
       tickets: [],
+      images: []
     };
     return newEvent;
   }

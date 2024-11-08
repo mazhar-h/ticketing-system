@@ -28,6 +28,10 @@ h2 {
     color: #dc3545;
 }
 
+.label-address-msg {
+  color: #dc3545;
+}
+
 input {
   width: 275px;
   padding: 10px;

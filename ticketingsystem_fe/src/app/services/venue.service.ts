@@ -20,4 +20,16 @@ export class VenueService {
   }): Observable<any> {
     return this.http.post(`${this.venueUrl}/register`, registerData, { responseType: 'text' });
   }
+
+  getAddress(): Observable<any> {
+    return this.http.get(`${this.venueUrl}/address`);
+  }
+
+  updateAddress(data: {
+    address: string,
+    city: string,
+    state: string
+  }) {
+    return this.http.post(`${this.venueUrl}/address`, data);
+  }
 }
