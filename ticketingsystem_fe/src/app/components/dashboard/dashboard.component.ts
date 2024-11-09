@@ -188,7 +188,7 @@ export class DashboardComponent implements OnInit {
   }
 
   searchEvents() {
-    this.router.navigate(['/search-results'], {
+    this.router.navigate(['/search'], {
       queryParams: { query: this.searchText },
     });
     console.log('Searching events for:', this.searchText);

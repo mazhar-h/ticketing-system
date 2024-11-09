@@ -26,7 +26,6 @@ import { EmailConfirmationComponent } from './components/email-confirmation/emai
 import { DeleteAccountModalComponent } from './components/delete-account-modal/delete-account-modal.component';
 import { DataDeletionPolicyComponent } from './components/data-deletion-policy/data-deletion-policy.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
-import { SearchResultsComponent } from './components/search-results/search-results.component';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { TicketSelectionModalComponent } from './components/ticket-selection-modal/ticket-selection-modal.component';
@@ -41,6 +40,7 @@ import { StripeReauthComponent } from './components/stripe-reauth/stripe-reauth.
 import { ReserveComponent } from './components/reserve/reserve.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { CuratedEventsComponent } from './components/curated-events/curated-events.component';
+import { SearchResult2Component } from './components/search-result2/search-result2.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -61,7 +61,6 @@ import { CuratedEventsComponent } from './components/curated-events/curated-even
         DeleteAccountModalComponent,
         DataDeletionPolicyComponent,
         HomepageComponent,
-        SearchResultsComponent,
         EventDetailsComponent,
         TicketSelectionModalComponent,
         BookingsComponent,
@@ -74,7 +73,8 @@ import { CuratedEventsComponent } from './components/curated-events/curated-even
         StripeReauthComponent,
         ReserveComponent,
         ConfirmComponent,
-        CuratedEventsComponent
+        CuratedEventsComponent,
+        SearchResult2Component
     ],
     bootstrap: [AppComponent], 
     imports: [

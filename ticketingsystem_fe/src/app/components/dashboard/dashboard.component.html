@@ -45,6 +45,7 @@
       placeholder="Search for events..."
       [(ngModel)]="searchText"
       (ngModelChange)="onSearchChange()"
+      (keyup.enter)="searchEvents()"
       class="search-input"
     />
     <button class="search-button" (click)="searchEvents()">Search</button>

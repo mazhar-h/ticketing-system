@@ -18,7 +18,7 @@ export class HomepageComponent {
   }
 
   searchEvents() {
-    this.router.navigate(['/search-results'], { queryParams: { query: this.searchText } });
+    this.router.navigate(['/search'], { queryParams: { query: this.searchText } });
     console.log('Searching events for:', this.searchText);
   }
 

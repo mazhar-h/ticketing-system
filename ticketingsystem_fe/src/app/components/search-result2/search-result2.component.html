@@ -1,0 +1,36 @@
+<div class="search-result-container">
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" [(ngModel)]="searchText" (keyup.enter)="onSearch()" placeholder="Search for events..." />
+        <button (click)="onSearch()">Search</button>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="loading-spinner">
+        <p>Loading events...</p>
+    </div>
+
+    <!-- Events List -->
+    <div class="events-list" *ngIf="events.length > 0; else noResults">
+        <div class="event-item">
+            <span class="event-name">Event</span>
+            <span class="event-venue">Venue</span>
+            <span class="event-date">Date</span>
+        </div>
+        <div *ngFor="let event of events" class="event-item" (click)="goToEventDetails(event)">
+            <span class="event-name">{{ event.name }}</span>
+            <span class="event-venue">{{ event.venue.name }}</span>
+            <span class="event-date">{{ event.date | date: 'longDate' }}</span>
+        </div>
+    </div>
+
+    <!-- Load More Button -->
+    <button *ngIf="!loading && moreResultsAvailable" (click)="loadMore()" class="load-more-button">
+        Load More
+    </button>
+
+    <!-- No Results Message -->
+    <ng-template #noResults>
+        <p class="no-results">No events found.</p>
+    </ng-template>
+</div>

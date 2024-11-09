@@ -14,8 +14,8 @@ export class EventService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getCuratedEvents(page: number) {
-    return this.http.get(`${this.eventUrl}/search?keyword=&original=true&location=true&classificationId=&page=${page}&size=20&sort=date,asc&radius=30&unit=miles`)
+  getCuratedEvents(page: number, size: number = 20) {
+    return this.http.get(`${this.eventUrl}/search?keyword=&original=true&location=true&classificationId=&page=${page}&size=${size}&sort=date,asc&radius=30&unit=miles`);
   }
 
   getEventsByVenue() {
@@ -23,7 +23,7 @@ export class EventService {
   }
 
   createEvent(data: any): Observable<any> {
-    return this.http.post(`${this.eventUrl}`, data)
+    return this.http.post(`${this.eventUrl}`, data);
   }
 
   getEvent(id: string, source: string = EventSource.o): Observable<any> {
@@ -32,7 +32,7 @@ export class EventService {
   }
 
   updateEvent(eventId: string, updatedEvent: { name: any; performerIds: any; date: any; }) {
-    return this.http.put(`${this.eventUrl}/${eventId}`, updatedEvent)
+    return this.http.put(`${this.eventUrl}/${eventId}`, updatedEvent);
 
   }
 
@@ -40,7 +40,7 @@ export class EventService {
     return this.http.get(`${this.eventUrl}`);
   }
 
-  searchEvents(searchText: string): Observable<any> {
-    return this.http.get(`${this.eventUrl}/search?keyword=${searchText}`);
+  searchEvents(searchText: string, page: number): Observable<any> {
+    return this.http.get(`${this.eventUrl}/search?keyword=${searchText}&original=true&location=false&classificationId=&page=${page}&size=50&sort=date,asc&radius=&unit=`);
   }
 }

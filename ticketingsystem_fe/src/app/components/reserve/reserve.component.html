@@ -19,11 +19,20 @@
         </div>
       </div>
       <div id="payment-element"></div>
+      <div *ngIf="total > 0">
       <button type="submit" [disabled]="!paymentForm.valid || !timerActive || isLoading">
         <span *ngIf="!isLoading">Pay</span>
         <span *ngIf="isLoading">
           <div class="spinner"></div>
         </span></button>
+      </div>
+      <div *ngIf="total === 0">
+        <button type="submit" [disabled]="!timerActive || isLoading">
+          <span *ngIf="!isLoading">Confirm tickets</span>
+          <span *ngIf="isLoading">
+            <div class="spinner"></div>
+          </span></button>
+        </div>
     </form>
   </div>
 

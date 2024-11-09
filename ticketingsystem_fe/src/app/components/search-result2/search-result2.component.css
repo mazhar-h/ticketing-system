@@ -1,0 +1,96 @@
+/* Search Result Container */
+.search-result-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Search Bar */
+  .search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .search-bar input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .search-bar button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Events List */
+  .events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .event-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .event-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .event-name, .event-venue, .event-date {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 5px;
+    color: #333;
+  }
+  
+  .event-date {
+    text-align: right;
+    color: #888;
+  }
+  
+  /* Loading Spinner */
+  .loading-spinner {
+    text-align: center;
+    font-size: 1.2em;
+    color: #888;
+    margin: 20px 0;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .search-result-container {
+      padding: 10px;
+    }
+  }
+
+  .load-more-button {
+    margin: 20px auto;
+    padding: 10px 20px;
+    display: block;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+  }
+  
+  .load-more-button:hover {
+    background-color: #45a049;
+  }
+  

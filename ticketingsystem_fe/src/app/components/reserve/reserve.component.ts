@@ -85,7 +85,8 @@ export class ReserveComponent implements OnInit, OnDestroy {
         await this.cancelGuestReservation();
         await this.startGuestSession();
         await this.setUpGuestCheckout();
-        await this.setupStripe();
+        if (this.total > 0)
+          await this.setupStripe();
       } catch (error: any) {
         if (error.status === 401) localStorage.removeItem('guestSessionToken');
         clearInterval(this.intervalId);
@@ -98,7 +99,8 @@ export class ReserveComponent implements OnInit, OnDestroy {
       try {
         await this.cancelReservation();
         await this.setUpCheckout();
-        await this.setupStripe();
+        if (this.total > 0)
+          await this.setupStripe();
       } catch (error: any) {
         clearInterval(this.intervalId);
         sessionStorage.removeItem('bookingId');
