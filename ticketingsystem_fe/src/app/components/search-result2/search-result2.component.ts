@@ -73,6 +73,13 @@ export class SearchResult2Component implements OnInit {
     }
   }
 
+  toDistinct(events: Event[]) {
+    var seen: any = {};
+    return events.filter(function (event: Event) {
+      return seen.hasOwnProperty(event.id) ? false : (seen[event.id] = true);
+    });
+  }
+
   loadEvents() {
     this.loading = true;
     this.eventService
@@ -95,6 +102,7 @@ export class SearchResult2Component implements OnInit {
           ];
           newEvents.sort((a, b) => a.date.getTime() - b.date.getTime());
           this.events = [...this.events, ...newEvents];
+          this.events = this.toDistinct(this.events);
           this.moreResultsAvailable =
             events?.ticketmaster.page.totalPages-1 - this.currentPage > 0;
           this.currentPage++;
@@ -128,6 +136,7 @@ export class SearchResult2Component implements OnInit {
         ];
         newEvents.sort((a, b) => a.date.getTime() - b.date.getTime());
         this.events = [...this.events, ...newEvents];
+        this.events = this.toDistinct(this.events);
         this.moreResultsAvailable =
           events?.ticketmaster.page.totalPages-1 - this.currentPage > 0;
         this.currentPage++;
