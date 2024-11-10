@@ -21,7 +21,7 @@ export class SearchResult2Component implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.searchText = params['query'] || '';});
+      this.searchText = params['q'] || '';});
     this.onSearch();
   }
 
@@ -59,7 +59,9 @@ export class SearchResult2Component implements OnInit {
     return newEvent;
   }
 
-  onSearch(): void {
+  onSearch(searchText?: string): void {
+    if (searchText)
+      this.searchText = searchText;
     if (this.searchText.trim()) {
       this.currentPage = 0;
       this.moreResultsAvailable = true;

@@ -1,0 +1,27 @@
+<div class="top-bar-desktop">
+    <div class="logo" (click)="goToHome()">Turnstile Ticket</div>
+
+    <div class="search-container">
+        <app-search-bar (search)="onSearch($event)"></app-search-bar>
+    </div>
+
+    <div class="auth-buttons">
+        <button (click)="goToLogin()">Login</button>
+        <button (click)="goToSignUp()">Sign Up</button>
+    </div>
+</div>
+
+<div class="top-bar-mobile">
+    <div class="top-bar-header">
+        <div class="logo" (click)="goToHome()">Turnstile Ticket</div>
+
+        <div class="auth-buttons">
+            <button (click)="goToLogin()">Login</button>
+            <button (click)="goToSignUp()">Sign Up</button>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <app-search-bar (search)="onSearch($event)"></app-search-bar>
+    </div>
+</div>

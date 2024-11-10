@@ -1,0 +1,8 @@
+<div class="container" ><input
+  type="text"
+  [(ngModel)]="searchTerm"
+  placeholder="Search for events, venues, or performers"
+  (keyup.enter)="submitSearch()"
+/>
+<button (click)="submitSearch()">Search</button>
+</div>

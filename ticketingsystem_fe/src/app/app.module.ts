@@ -41,6 +41,8 @@ import { ReserveComponent } from './components/reserve/reserve.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { CuratedEventsComponent } from './components/curated-events/curated-events.component';
 import { SearchResult2Component } from './components/search-result2/search-result2.component';
+import { TopBarComponent } from './components/top-bar/top-bar.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -74,7 +76,9 @@ import { SearchResult2Component } from './components/search-result2/search-resul
         ReserveComponent,
         ConfirmComponent,
         CuratedEventsComponent,
-        SearchResult2Component
+        SearchResult2Component,
+        TopBarComponent,
+        SearchBarComponent
     ],
     bootstrap: [AppComponent], 
     imports: [

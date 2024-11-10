@@ -1,3 +1,4 @@
+<app-top-bar></app-top-bar>
 <div class="dashboard-container">
   <h2>Welcome to Your Dashboard</h2>
   <p>{{ message }}</p>
@@ -37,18 +38,6 @@
     <div *ngIf="errorMessage" class="error-message">
       {{ errorMessage }}
     </div>
-  </div>
-
-  <div class="search-container">
-    <input
-      type="text"
-      placeholder="Search for events..."
-      [(ngModel)]="searchText"
-      (ngModelChange)="onSearchChange()"
-      (keyup.enter)="searchEvents()"
-      class="search-input"
-    />
-    <button class="search-button" (click)="searchEvents()">Search</button>
   </div>
 
   <!-- Form to create a new user -->
