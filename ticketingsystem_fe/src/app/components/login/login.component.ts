@@ -77,6 +77,7 @@ export class LoginComponent implements OnInit {
           this.authService.getGoogleExistingUser(this.idToken).subscribe({
             next: (resp) => {
               this.existingUsername = resp.username;
+              this.authService.login2(this.existingUsername);
               this.idToken = response.credential;
               this.socialType = 'google';
               this.showUserLinkModal = true;
@@ -103,6 +104,7 @@ export class LoginComponent implements OnInit {
 
       this.authService.login(username, password).subscribe({
         next: (response) => {
+          this.authService.login2(username);
           this.authService.saveAccessToken(response.accessToken);
           this.router.navigate(['/dashboard']);
         },
@@ -143,6 +145,7 @@ export class LoginComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
+          this.authService.login2(username);
           localStorage.setItem('token', response.accessToken);
           this.redirectDashboard();
           return;
@@ -161,6 +164,7 @@ export class LoginComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
+          this.authService.login2(username);
           localStorage.setItem('token', response.accessToken);
           this.redirectDashboard();
           return;
@@ -204,6 +208,7 @@ export class LoginComponent implements OnInit {
           this.authService.getFacebookExistingUser(this.idToken).subscribe({
             next: (response) => {
               this.existingUsername = response.username;
+              this.authService.login2(this.existingUsername);
               this.idToken = token;
               this.socialType = 'facebook';
               this.showUserLinkModal = true;

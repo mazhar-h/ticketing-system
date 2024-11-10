@@ -43,6 +43,7 @@ import { CuratedEventsComponent } from './components/curated-events/curated-even
 import { SearchResult2Component } from './components/search-result2/search-result2.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { AuthButtonComponent } from './components/auth-button/auth-button.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -78,7 +79,8 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
         CuratedEventsComponent,
         SearchResult2Component,
         TopBarComponent,
-        SearchBarComponent
+        SearchBarComponent,
+        AuthButtonComponent
     ],
     bootstrap: [AppComponent], 
     imports: [

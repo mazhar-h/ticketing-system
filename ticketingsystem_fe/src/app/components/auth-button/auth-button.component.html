@@ -1,0 +1,44 @@
+<div class="auth-buttons">
+    <div *ngIf="!isLoggedIn">
+        <button class="regular-btn" (click)="login()">Login</button>
+        <button class="regular-btn" (click)="signUp()">Sign Up</button>
+    </div>
+
+    <div *ngIf='isLoggedIn && roles?.includes("ROLE_VENUE")'>
+        <button class="regular-btn" (click)="goToCreateEvent()">+ Create Event</button>
+    </div>
+
+    <div *ngIf="isLoggedIn" class="username-dropdown desktop">
+        <span class="username">{{ username }}</span>
+        <span class="arrow"></span>
+        <div class="dropdown-menu">
+            <button (click)="goToDashboard()">Dashboard</button>
+            <button *ngIf="roles?.includes('ROLE_ADMIN') || roles?.includes('ROLE_USER')" (click)="goToBookings()">Bookings</button>
+            <button *ngIf="roles?.includes('ROLE_VENUE')" (click)="goToVenueEvents()">Events</button>
+            <button *ngIf="roles?.includes('ROLE_VENUE')" (click)="goToScanner()">Scanner</button>
+            <button *ngIf="roles?.includes('ROLE_VENUE')" (click)="goToPayments()">Payments</button>
+            <button (click)="goToSettings()">Settings</button>
+            <button (click)="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div *ngIf="isLoggedIn" class="username-dropdown mobile" (click)="toggleDropdown()">
+        <span class="profile-icon">
+            <!-- Inline SVG for Profile Icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#333">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M12 14c-5 0-8 3-8 6v2h16v-2c0-3-3-6-8-6z"></path>
+            </svg>
+        </span>
+        <div class="dropdown-menu" [class.show]="isDropdownOpen">
+            <button (click)="goToDashboard()">Dashboard</button>
+            <button *ngIf="roles?.includes('ROLE_ADMIN') || roles?.includes('ROLE_USER')" (click)="goToBookings()">Bookings</button>
+            <button *ngIf="roles?.includes('ROLE_VENUE')" (click)="goToVenueEvents()">Events</button>
+            <button *ngIf="roles?.includes('ROLE_VENUE')" (click)="goToScanner()">Scanner</button>
+            <button *ngIf="roles?.includes('ROLE_VENUE')" (click)="goToPayments()">Payments</button>
+            <button (click)="goToSettings()">Settings</button>
+            <button (click)="logout()">Logout</button>
+        </div>
+    </div>
+    
+</div>

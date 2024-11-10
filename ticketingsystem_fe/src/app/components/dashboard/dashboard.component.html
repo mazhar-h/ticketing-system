@@ -4,24 +4,6 @@
   <p>{{ message }}</p>
   <!-- Display the message here -->
 
-  <button (click)="logout()" class="btn btn-danger">Logout</button>
-  <button routerLink="/settings" class="btn btn-danger">Settings</button>
-  <div
-    *ngIf="!roles.includes('ROLE_VENUE') && !roles.includes('ROLE_PERFORMER')"
-  >
-    <button routerLink="/bookings" class="btn btn-danger">Bookings</button>
-  </div>
-  <div *ngIf="roles.includes('ROLE_VENUE')">
-    <button routerLink="/venue/events" class="btn btn-danger">
-      Venue Events
-    </button>
-    <button routerLink="/venue/events/create" class="btn btn-danger">
-      Create Event
-    </button>
-    <button routerLink="/scanner" class="btn btn-danger">Scanner</button>
-    <button routerLink="/payments" class="btn btn-danger">Payments</button>
-  </div>
-
   <div [hidden]="!roles.includes('ROLE_VENUE')">
     <div id="notification-container"></div>
   </div>
