@@ -1,38 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Turnstile Ticket - A place to find live music entertainment.</title>
-    <base href="/" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Find and host events for live music entertainment. Get through the door with Turnstile Ticket!"> 
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script>
-      window.fbAsyncInit = function () {
-        FB.init({
-          appId: "508990608788575",
-          cookie: true,
-          xfbml: true,
-          version: "v21.0",
-        });
-        FB.AppEvents.logPageView();
-      };
-      (function (d, s, id) {
-        var js,
-          fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-          return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      })(document, "script", "facebook-jssdk");
-    </script>
-    <script src="https://js.stripe.com/v3/"></script>
-  </head>
-  <body class="mat-typography">
-    <app-root></app-root>
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Turnstile Ticket - A place to find live music entertainment.</title>
+  <base href="/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Find and host events for live music entertainment. Get through the door with Turnstile Ticket!">
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="canonical" href="https://www.turnstileticket.com">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PV69WGR034"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-PV69WGR034');
+  </script>
+
+  <script>
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: "508990608788575",
+        cookie: true,
+        xfbml: true,
+        version: "v21.0",
+      });
+      FB.AppEvents.logPageView();
+    };
+    (function (d, s, id) {
+      var js,
+        fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, "script", "facebook-jssdk");
+  </script>
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+
+<body class="mat-typography">
+  <app-root></app-root>
+</body>
+
 </html>
