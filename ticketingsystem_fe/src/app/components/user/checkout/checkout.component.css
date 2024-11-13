@@ -1,0 +1,36 @@
+.checkout-container {
+    border: 1px solid #ddd;
+    width: 100%;
+    background-color: #f9f9f9;
+  }
+
+  .inner-container {
+    padding: 20px;
+  }
+  
+  .ticket-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .ticket-name, .ticket-price {
+    font-size: 16px;
+  }
+  
+  .summary {
+    padding-top: 10px;
+    font-size: 18px;
+  }
+  
+  .fee-row, .total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+  }
+  
+  .total-row strong {
+    font-weight: bold;
+  }
+  

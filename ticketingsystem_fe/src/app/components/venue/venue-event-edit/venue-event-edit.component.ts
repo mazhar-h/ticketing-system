@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { EventService } from '../../services/event.service';
-import { PerformerService } from '../../services/performer.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Papa } from 'ngx-papaparse';
+import { EventService } from 'src/app/services/event.service';
+import { PerformerService } from 'src/app/services/performer.service';
 
 
 @Component({

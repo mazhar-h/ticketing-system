@@ -51,15 +51,7 @@
     </div>
 
     <div class="right-column-bottom">
-      <div class="checkout-summary">
-        <h3>Checkout Details</h3>
-        <p><strong>Tickets Reserved:</strong></p>
-        <ul>
-          <li *ngFor="let ticket of tickets">1 x {{ ticket.name }} - {{ ticket.price | currency }}</li>
-        </ul>
-        <p><strong>Platform Fee:</strong> ${{ platformFee }}</p>
-        <p><strong>Total:</strong> ${{ total }}</p>
-      </div>
+      <app-checkout [tickets]="tickets" [platformFee]="platformFee" [total]="total"></app-checkout>
     </div>
   </div>
 </div>

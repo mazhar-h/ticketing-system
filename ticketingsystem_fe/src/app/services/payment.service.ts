@@ -27,6 +27,11 @@ export class PaymentService {
     this.stripeConnectInstance = loadConnectAndInitialize({
       publishableKey: environment.stripePublishableKey,
       fetchClientSecret: this.fetchClientSecret.bind(this),
+      appearance: {
+        variables: {
+          colorPrimary: "#000000",
+        },
+      },
     });
   }
 

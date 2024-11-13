@@ -1,38 +1,25 @@
 .reserve-page {
     display: flex;
     gap: 20px;
-    padding: 20px;
 }
 
 @media (min-width: 769px) {
     .left-column {
         flex: 1;
         border: 1px solid #ddd;
-        border-radius: 8px;
         background-color: #f9f9f9;
-        padding-left: 10%;
-        padding-right: 10%;
-        padding-top: 2%;
-        padding-bottom: 2%;
+        padding: 10px;
         margin-left: 400px;
+        margin-bottom: 5px;
     }
 
     .right-column-top,
     .right-column-bottom {
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-        padding: 50px;
         margin-right: 400px;
     }
 
     .right-column-bottom {
         margin-top: 20px;
-    }
-
-    .event-details,
-    .checkout-summary {
-        margin-bottom: 20px;
     }
 }
 
@@ -44,15 +31,10 @@
         flex-direction: column;
     }
 
-    .left-column,
-    .right-column-top,
-    .right-column-bottom {
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-        width: 100%;
+    .left-column {
         padding: 10px;
     }
+    
 
     .right-column-top,
     .right-column-bottom {

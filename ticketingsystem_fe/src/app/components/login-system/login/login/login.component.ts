@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, resolveForwardRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../../services/auth.service';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/app/environments/enivornment';

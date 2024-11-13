@@ -47,7 +47,7 @@ export class SearchResult2Component implements OnInit {
       id: event.id,
       name: event.name,
       date: new Date(event.dates.start.dateTime),
-      venue: event._embedded.venues[0] || '',
+      venue: event?._embedded?.venues !== null ? event._embedded.venues[0] : '',
       url: event.url,
       type: EventSource.tm,
       description: '',
