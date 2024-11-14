@@ -15,4 +15,7 @@
     <div *ngIf="loading" class="loading-spinner">
         <p>Loading more events...</p>
     </div>
+    <div class="load-button" *ngIf="moreResultsAvailable">
+    <button (click)="loadEvents()">Load More</button>
+    </div>
 </div>

@@ -9,7 +9,12 @@ export type Event = {
     url: string,
     type: string,
     tickets: Ticket[],
-    images: any[]
+    images: any[],
+    location?: {
+      latitude: number,
+      longitude: number,
+    },
+    genres? : []
   };
 
   export type Venue = {

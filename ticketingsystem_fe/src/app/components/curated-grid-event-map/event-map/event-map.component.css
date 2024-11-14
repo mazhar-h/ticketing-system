@@ -1,0 +1,19 @@
+/* General styling */
+#map {
+  height: 75vh;
+  width: 100%;
+}
+
+/* Mobile styling */
+@media (max-width: 768px) {
+  #map {
+    height: 60vh; /* Adjust the height for smaller screens */
+  }
+}
+
+/* Optional adjustments for small screens */
+@media (max-width: 480px) {
+  #map {
+    height: 50vh;
+  }
+}

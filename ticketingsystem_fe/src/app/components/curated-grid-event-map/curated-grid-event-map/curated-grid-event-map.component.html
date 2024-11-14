@@ -1,0 +1,59 @@
+<div *ngIf="isGridView">
+    <div class="button-group">
+        <div class="view-toggle">
+            <button (click)="toggleView()">
+                <i class="fas" [ngClass]="isGridView ? 'fa-map' : 'fa-th-large'"></i>
+                {{ isGridView ? 'Map View' : 'Grid View' }}
+            </button>
+        </div>
+        <button (click)="toggleFilterMenu()" class="filter-button">
+            <i class="fas fa-filter"></i> Filter
+        </button>
+    </div>
+    <div *ngIf="isFilterMenuOpen" class="filter-menu">
+        <div class="date-filter">
+            <label>Start Date: <input type="date" [(ngModel)]="startDate"></label>
+            <label>End Date: <input type="date" [(ngModel)]="endDate"></label>
+            <button (click)="applyDateFilter()">Filter</button>
+        </div>
+        <label>Genre: </label>
+        <select [(ngModel)]="selectedGenre" (change)="applyGenreFilter()">
+            <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+        </select>
+        <button (click)="applyGenreFilter()">Filter</button>
+        <div>
+            <button (click)="clearAllFilters()">Clear All Filters</button>
+        </div>
+    </div>
+    <app-curated-events [events]="filteredEvents" (eventsLoaded)="receiveEvents($event)"></app-curated-events>
+</div>
+
+<div *ngIf="!isGridView">
+    <div class="button-group">
+        <div class="view-toggle">
+            <button (click)="toggleView()">
+                <i class="fas" [ngClass]="isGridView ? 'fa-map' : 'fa-th-large'"></i>
+                {{ isGridView ? 'Map View' : 'Grid View' }}
+            </button>
+        </div>
+        <button (click)="toggleFilterMenu()" class="filter-button">
+            <i class="fas fa-filter"></i> Filter
+        </button>
+    </div>
+    <div *ngIf="isFilterMenuOpen" class="filter-menu">
+        <div class="date-filter">
+            <label>Start Date: <input type="date" [(ngModel)]="startDate"></label>
+            <label>End Date: <input type="date" [(ngModel)]="endDate"></label>
+            <button (click)="applyDateFilter()">Filter</button>
+        </div>
+        <label>Genre: </label>
+        <select [(ngModel)]="selectedGenre" (change)="applyGenreFilter()">
+            <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+        </select>
+        <button (click)="applyGenreFilter()">Filter</button>
+        <div>
+            <button (click)="clearAllFilters()">Clear All Filters</button>
+        </div>
+    </div>
+    <app-event-map [events]="filteredEvents"></app-event-map>
+</div>

@@ -39,12 +39,14 @@ import { PaymentsComponent } from './components/venue/payments/payments.componen
 import { StripeReauthComponent } from './components/venue/stripe-reauth/stripe-reauth.component';
 import { ReserveComponent } from './components/user/reserve/reserve.component';
 import { ConfirmComponent } from './components/user/confirm/confirm.component';
-import { CuratedEventsComponent } from './components/curated-events/curated-events.component';
+import { CuratedEventsComponent } from './components/curated-grid-event-map/curated-events/curated-events.component';
 import { SearchResult2Component } from './components/search-result2/search-result2.component';
 import { TopBarComponent } from './components/top-bar/top-bar/top-bar.component';
 import { SearchBarComponent } from './components/top-bar/search-bar/search-bar.component';
 import { AuthButtonComponent } from './components/top-bar/auth-button/auth-button.component';
 import { CheckoutComponent } from './components/user/checkout/checkout.component';
+import { EventMapComponent } from './components/curated-grid-event-map/event-map/event-map.component';
+import { CuratedGridEventMapComponent } from './components/curated-grid-event-map/curated-grid-event-map/curated-grid-event-map.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -82,7 +84,9 @@ import { CheckoutComponent } from './components/user/checkout/checkout.component
         TopBarComponent,
         SearchBarComponent,
         AuthButtonComponent,
-        CheckoutComponent
+        CheckoutComponent,
+        EventMapComponent,
+        CuratedGridEventMapComponent
     ],
     bootstrap: [AppComponent], 
     imports: [

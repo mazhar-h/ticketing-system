@@ -15,4 +15,8 @@ export class WeatherService {
   getWeather(): Observable<any> {
     return this.http.get(`${this.weatherUrl}`, { headers: { Authorization: 'Bearer ' + this.authService.getToken() } });
   }
+
+  getLocation(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/location`);
+  }
 }
