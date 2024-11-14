@@ -106,9 +106,12 @@ export class EventMapComponent implements OnInit {
         day: 'numeric' as any,
       };
       const date = new Date(event.date);
+      let venue = '';
+      if (event.venue.name)
+        venue = `Venue: ${event.venue.name}<br>`;
       marker?.bindPopup(`
         <b>${event.name}</b><br>
-        Venue: ${event.venue.name}<br>
+        ${venue}
         Date: ${date.toLocaleString('en-US', options)}<br>
         <a href="/event/${event.type}/${
         event.id
