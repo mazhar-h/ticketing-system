@@ -36,7 +36,7 @@
   }
   
   button {
-    background-color: #4a90e2;
+    background-color: #000;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -44,8 +44,9 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 200px;
   }
   
   button:hover {
-    background-color: #357ABD;
+    background-color: #333;
   }  
