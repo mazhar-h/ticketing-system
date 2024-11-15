@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
           this.socialType = 'google';
           this.openUsernameModal();
         } else {
+          this.authService.login2('');
           localStorage.setItem('token', resp.accessToken);
           this.redirectDashboard();
         }
@@ -199,6 +200,7 @@ export class LoginComponent implements OnInit {
           this.socialType = 'facebook';
           this.openUsernameModal();
         } else {
+          this.authService.login2('');
           localStorage.setItem('token', response.accessToken);
           this.redirectDashboard();
         }

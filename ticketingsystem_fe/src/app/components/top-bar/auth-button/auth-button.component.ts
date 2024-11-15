@@ -58,7 +58,6 @@ export class AuthButtonComponent implements OnInit {
   }
 
   login() {
-    this.authService.login2(this.username);
     this.router.navigate(['/login']);
   }
 
