@@ -1,3 +1,0 @@
-export enum BusinessType {
-    COMPANY, GOVERNMENT_ENTITY, INDIVIDUAL, NON_PROFIT
-};

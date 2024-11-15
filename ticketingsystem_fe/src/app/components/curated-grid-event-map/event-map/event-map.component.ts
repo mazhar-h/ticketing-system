@@ -36,8 +36,7 @@ export class EventMapComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.eventMapService.events$.subscribe((events) => {
       this.events = events;
-      if (this.map)
-        this.updateMarkers();
+      if (this.map) this.updateMarkers();
     });
   }
 
@@ -107,8 +106,7 @@ export class EventMapComponent implements OnInit {
       };
       const date = new Date(event.date);
       let venue = '';
-      if (event.venue.name)
-        venue = `Venue: ${event.venue.name}<br>`;
+      if (event.venue.name) venue = `Venue: ${event.venue.name}<br>`;
       marker?.bindPopup(`
         <b>${event.name}</b><br>
         ${venue}

@@ -1,3 +1,10 @@
+.curated-events {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
 .event-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);

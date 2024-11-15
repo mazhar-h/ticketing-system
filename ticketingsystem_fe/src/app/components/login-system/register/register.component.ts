@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BusinessType } from 'src/app/enums/business-type.enum';
 import { PerformerService } from 'src/app/services/performer.service';
 import { UserService } from 'src/app/services/user.service';
 import { VenueService } from 'src/app/services/venue.service';

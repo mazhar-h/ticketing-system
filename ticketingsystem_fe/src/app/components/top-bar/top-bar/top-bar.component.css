@@ -7,10 +7,12 @@
 
 .logo {
     font-size: 1.5em;
-    font-weight: bold;
     color: #000;
     cursor: pointer;
     margin-right: 5%;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: italic;
 }
 
 .search-container {
