@@ -3,11 +3,10 @@
         <div class="view-toggle">
             <button (click)="toggleView()">
                 <i class="fas" [ngClass]="isGridView ? 'fa-map' : 'fa-th-large'"></i>
-                {{ isGridView ? 'Map View' : 'Grid View' }}
             </button>
         </div>
         <button (click)="toggleFilterMenu()" class="filter-button">
-            <i class="fas fa-filter"></i> Filter
+            <i class="fas fa-filter"></i>
         </button>
     </div>
     <div *ngIf="isFilterMenuOpen" class="filter-menu">
@@ -33,11 +32,10 @@
         <div class="view-toggle">
             <button (click)="toggleView()">
                 <i class="fas" [ngClass]="isGridView ? 'fa-map' : 'fa-th-large'"></i>
-                {{ isGridView ? 'Map View' : 'Grid View' }}
             </button>
         </div>
         <button (click)="toggleFilterMenu()" class="filter-button">
-            <i class="fas fa-filter"></i> Filter
+            <i class="fas fa-filter"></i>
         </button>
     </div>
     <div *ngIf="isFilterMenuOpen" class="filter-menu">
