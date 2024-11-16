@@ -14,7 +14,9 @@ export type Event = {
       latitude: number,
       longitude: number,
     },
-    genres? : []
+    genres? : [],
+    preview_url?: string,
+    spotify_link?: string
   };
 
   export type Venue = {

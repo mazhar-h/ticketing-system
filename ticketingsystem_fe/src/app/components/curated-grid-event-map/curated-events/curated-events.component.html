@@ -1,21 +1,33 @@
 <div class="curated-events">
     <h3>Events near you</h3>
     <div class="event-grid">
-        <a class="event-card" *ngFor="let event of events" [routerLink]="routerLinkGenerator(event)">
-            <!-- Link to event details page -->
+        <div class="event-card" *ngFor="let event of events">
+            <a [routerLink]="routerLinkGenerator(event)">
+                <!-- Link to event details page -->
+                <img [src]="findGoodImage(event)" alt="{{ event.name }}" class="event-image" />
+                <p class="event-name">{{ event.name }}</p>
+                <p class="event-venue">{{ event.venue.name }}</p>
+                <p class="event-date">{{ event.date | date: 'longDate' }}</p>
+                <!-- Display formatted date -->
+            </a>
 
-            <img [src]="findGoodImage(event)" alt="{{ event.name }}" class="event-image" />
-            <p class="event-name">{{ event.name }}</p>
-            <p class="event-venue">{{ event.venue.name }}</p>
-            <p class="event-date">{{ event.date | date: 'longDate' }}</p>
-            <!-- Display formatted date -->
-        </a>
+            <!-- Play Button and Spotify Link -->
+            <div class="actions" *ngIf="event.preview_url">
+                <button (click)="togglePlay(event)" class="play-button">
+                    <i [ngClass]="playingEventId === event.id ? 'fas fa-pause' : 'fas fa-play'"></i>
+                </button>
+                <a [href]="event.spotify_link" target="_blank" class="spotify-link">
+                    <i class="fab fa-spotify"></i>
+                </a>
+                <audio #audio [src]="event.preview_url"></audio>
+            </div>
+        </div>
     </div>
 
     <div *ngIf="loading" class="loading-spinner">
         <p>Loading more events...</p>
     </div>
     <div class="load-button" *ngIf="moreResultsAvailable">
-    <button (click)="loadEvents()">Load More</button>
+        <button (click)="loadEvents()">Load More</button>
     </div>
 </div>
