@@ -46,15 +46,14 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px; /* Adjust size as needed */
-  height: 28px;
-  background-color: black;
-  border-radius: 50%; /* Makes the background circular */
-  color: #1DB954; /* Spotify green */
+  color: #1ED760; /* Spotify green */
   text-decoration: none;
   font-size: 33px; /* Adjust icon size as needed */
 }
 
+.spotify-link i:hover {
+  color: #FFFFFF;
+}
 
 .play-button {
   width: 35px; /* Adjust size as needed */
@@ -68,6 +67,10 @@ a {
   border: none;
   cursor: pointer;
   font-size: .8em;
+}
+
+.play-button:hover {
+  background-color: #333; /* Spotify green */
 }
 
 .event-card:hover {

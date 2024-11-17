@@ -69,7 +69,7 @@ export class CuratedEventsComponent implements OnInit {
 
       audio.onended = () => {
         this.playingEventId = null;
-        audio.onended = null; // Clean up listener
+        audio.onended = null;
       };
     }
   }
