@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Booking Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #ffffff;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .detail {
+            margin: 8px 0;
+        }
+        .ticket-item {
+            margin: 4px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .total-price {
+            font-weight: bold;
+            font-size: 16px;
+            text-align: right;
+            margin-top: 10px;
+        }
+        .footer {
+            font-size: 12px;
+            color: #777;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Booking Confirmation</h1>
+
+    <!-- Event Information Section -->
+    <div class="section">
+        <div class="section-title">Event Information</div>
+        <div class="detail"><strong>Event Name:</strong> <span th:text="${event.name}">Event Name</span></div>
+        <div class="detail"><strong>Venue:</strong> <span th:text="${venue.name}">Venue Name</span></div>
+        <div class="detail">
+            <strong>Date:</strong> <span th:text="${event.date.format(T(java.time.format.DateTimeFormatter).ofPattern('MMMM dd, yyyy'))}">Event Date</span>
+        </div>
+        <div class="detail">
+            <strong>Time:</strong> <span th:text="${event.date.format(T(java.time.format.DateTimeFormatter).ofPattern('hh:mm a'))}">Event Time</span>
+        </div>
+    </div>
+
+    <!-- Order Details Section -->
+    <div class="section">
+        <div class="section-title">Order Details</div>
+        <div class="detail"><strong>Booking ID:</strong> <span th:text="${bookingId}">Booking ID</span></div>
+        <div class="detail"><strong>User:</strong> <span th:text="${user.username}">Username</span></div>
+
+        <!-- Tickets List -->
+        <div class="section-title">Tickets</div>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+                <th style="text-align: left; padding-bottom: 8px;">Ticket Name</th>
+                <th style="text-align: right; padding-bottom: 8px;">Price</th>
+            </tr>
+            <tr th:each="ticket : ${tickets}">
+                <td style="padding: 4px 0;" th:text="${'1 x ' + ticket.name}">Ticket Name</td>
+                <td style="padding: 4px 0; text-align: right;" th:text="${'$' + #numbers.formatDecimal(ticket.price, 1, 2)}">Ticket Price</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 0;" th:text="${'Platform Fee'}">Platform Fee</td>
+                <td style="padding: 4px 0; text-align: right;" th:text="${'$' + #numbers.formatDecimal(platformFee, 1, 2)}">Platform Fee</td>
+            </tr>
+        </table>
+
+        <!-- Total Price -->
+        <div class="total-price">
+            <strong>Total:</strong> <span th:text="${'$' + #numbers.formatDecimal(totalPrice, 1, 2)}">Total Price</span>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>Thank you for your booking! We look forward to seeing you at the event.</p>
+        <p>Turnstile Ticket</p>
+    </div>
+</div>
+</body>
+</html>

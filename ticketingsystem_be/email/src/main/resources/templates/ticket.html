@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Event Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+        .ticket-container {
+            width: 300px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #ffffff;
+            text-align: center;
+        }
+        .event-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .venue, .date-time, .price, .ticket-name {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        .qr-code {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            display: inline-block;
+        }
+        .booking-id {
+            font-size: 12px;
+            color: #777;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="ticket-container">
+    <!-- Event Information -->
+    <div class="event-name" th:text="${event.name}">Event Name</div>
+    <div class="venue" th:text="${venue.name}">Venue Name</div>
+    <div class="date-time">
+        <span th:text="${event.date.format(T(java.time.format.DateTimeFormatter).ofPattern('MMMM dd, yyyy'))}">Event Date</span>
+        at <span th:text="${event.date.format(T(java.time.format.DateTimeFormatter).ofPattern('hh:mm a'))}">Event Time</span>
+    </div>
+
+    <!-- Ticket Information -->
+    <div class="ticket-name" th:text="${ticketName}">Ticket Name</div>
+    <div class="price" th:text="'Price: $' + ${#numbers.formatDecimal(ticketPrice, 1, 2)}">Price</div>
+
+    <!-- QR Code Placeholder -->
+    <div class="qr-code">
+        <img th:src="${qrCodeUrl}" alt="QR Code" width="120" height="120"/>
+    </div>
+
+    <!-- Booking ID -->
+    <div class="booking-id">Booking ID: <span th:text="${bookingId}">123456</span></div>
+</div>
+</body>
+</html>
